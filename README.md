@@ -50,6 +50,25 @@ Results will be saved in the results/ directory.
 The scripts used to evaluate the models in the paper are listed below. Each script is categorized into those for setting up the analysis environment and those for executing the analysis.
 - Environment : /environment directory
 - Script : /analysis directory
+```
+$ cd GenPerturb # All scripts should be executed within this directory.
+```
+
+
+### Preprocessing and analysis of single-cell data
+- Environment :
+  - /environment/
+- Script :
+  - /analysis/
+```
+
+```
+
+### Model interpretation using Captum
+- Environment :
+  - /environment/
+- Script :
+  - /analysis/
 For Enformer:
 ```
 $ STUDY=
@@ -70,21 +89,6 @@ $ MODEL=
 python 10_captum_token.py $STUDY $STUDY_SUFFIX $MODEL seq condition
 python 11_evaluate_attribution.py $STUDY $STUDY_SUFFIX
 ```
-
-### Preprocessing and analysis of single-cell data
-- Environment :
-  - /environment/
-- Script :
-  - /analysis/
-```
-
-```
-
-### Model interpretation using Captum
-- Environment :
-  - /environment/
-- Script :
-  - /analysis/
 
 ### Visualization of attribution and ChIP-seq data in BigWig format using CoolBox.
 - Environment :
