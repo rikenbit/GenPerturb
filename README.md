@@ -30,6 +30,18 @@ Results will be saved in the results/ directory.
 
 ## Model evaluation
 The scripts used to evaluate the models in the paper are listed below. Each script is categorized into those for setting up the analysis environment and those for executing the analysis.
+- Envilonment : /envilonment directory
+- Script : /analysis directory
+
+### Preprocessing and analysis of single-cell data
+
+### Model interpretation using Captum
+
+### Visualization of attribution and ChIP-seq data in BigWig format using CoolBox.
+
+### Enrichment analysis of genome tracks
+
+### Motif detection using TF-MoDISco
 
 
 ## Citation
