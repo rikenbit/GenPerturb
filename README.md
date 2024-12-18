@@ -37,6 +37,8 @@ python 02_qsub_script.py $STUDY $STUDY_PLAN $MODEL
 
 Results will be saved in the results/ directory.
 
+## Output
+
 
 ## Model evaluation
 The scripts used to evaluate the models in the paper are listed below. Each script is categorized into those for setting up the analysis environment and those for executing the analysis.
