@@ -28,7 +28,7 @@ This repository hosts the code and tools developed for benchmarking transfer lea
 - Fine-tuning : GPU memory 49GB~ (e.g. NVIDIA RTX 6000 Ada)
 
 ## Setup Instructions
-Create a virtual environment using miniconda:
+Create an environment using miniconda:
 ```
 conda create -n enformer  python=3.10
 conda activate enformer
@@ -146,7 +146,7 @@ We thank the members of the Bioinformatics Research Team in RIKEN Center for Bio
 ## Citation
 ```
 @article{TBD,
-  title={Transfer learning usingon generative pretrained genomic DNA models for predicting perturbation-induced changes in gene expression},
+  title={Transfer learning using generative pretrained genomic DNA models for predicting perturbation-induced changes in gene expression},
   author={Takuya Shiihashi, Itoshi Nikaido et al.},
   year={2024}
 }
