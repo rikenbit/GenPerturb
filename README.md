@@ -9,11 +9,9 @@
   - python ---.pyで実行させる。bash系は環境変数を設定する。
   - 
 
-
-## Overview
 This repository hosts the code and tools developed for benchmarking transfer learning in genomic DNA models. The repository includes implementations for transfer learning using genomic DNA models, such as Enformer, and evaluating their ability to predict perturbation-induced gene expression changes from DNA sequences. It also provides scripts for preprocessing datasets, running experiments across multiple conditions and datasets, and applying model interpretation methods to investigate regulatory elements and transcription factor motifs. The code is designed to facilitate the reproduction of results, the exploration of transfer learning approaches, and further development of predictive models in genomic research.
 
-
+======================
 ## Requirements
 - Feature-based : GPU memory 5GB~ 
 - Fine tuning : GPU memory 49GB~ (e.g. NVIDIA RTX 6000 Ada)
