@@ -68,15 +68,15 @@ The trained checkpoint file will be saved in the logs/ directory.
 
 ---
 ## Preprocessing of single-cell data and pre-embedding
-Data preparation for training and model evaluation is performed using scripts in the following directory. 
-This includes downloading and processing single-cell data, downloading ChIP-seq and motif data, obtaining pre-embedding values, and creating BED files that define TSS regions.
+Data preparation for training and model evaluation is performed using scripts in the following directory.  
+This includes downloading and processing single-cell data, obtaining pre-embedding values, creating BED files that define TSS regions, downloading ChIP-seq and motif data, and so on.
 ```
 genperturb/preprocess/*
 ```
 
 ---
 ## Model evaluation
-The evaluation scripts required for reproducing the results of the paper are listed below. 
+The evaluation scripts required for reproducing the results of the paper are listed below.  
 Most scripts perform comparisons between datasets or models. To execute these scripts, it is necessary to prepare all the data used under the conditions specified in the paper.
 
 ### Evaluation of clustering and gene signature
