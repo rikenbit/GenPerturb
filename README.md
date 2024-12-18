@@ -9,9 +9,10 @@
   - python ---.pyで実行させる。bash系は環境変数を設定する。
   - 
 
+Welcome to GenPerturb Github repository.
 This repository hosts the code and tools developed for benchmarking transfer learning in genomic DNA models. The repository includes implementations for transfer learning using genomic DNA models, such as Enformer, and evaluating their ability to predict perturbation-induced gene expression changes from DNA sequences. It also provides scripts for preprocessing datasets, running experiments across multiple conditions and datasets, and applying model interpretation methods to investigate regulatory elements and transcription factor motifs. The code is designed to facilitate the reproduction of results, the exploration of transfer learning approaches, and further development of predictive models in genomic research.
 
-======================
+---
 ## Requirements
 - Feature-based : GPU memory 5GB~ 
 - Fine tuning : GPU memory 49GB~ (e.g. NVIDIA RTX 6000 Ada)
@@ -53,9 +54,10 @@ Results will be saved in the results/ directory.
 
 ## Output
 
-
+---
 ## Preprocessing of single-cell data and pre-embedding
 
+---
 ## Model evaluation
 The scripts used to evaluate the models in the paper are listed below. Each script is categorized into those for setting up the analysis environment and those for executing the analysis.
 - Environment : /environment directory
@@ -119,6 +121,11 @@ python 11_evaluate_attribution.py $STUDY $STUDY_SUFFIX
   - /environment/
 - Script :
   - /analysis/
+
+
+---
+## Acknowledgments
+We thank the members of the Bioinformatics Research Team in RIKEN Center for Biosystems Dynamics Research, particularly Akihiro Matsushima, for their management of the IT infrastructure.
 
 ## Citation
 ```
