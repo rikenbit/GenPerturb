@@ -12,13 +12,14 @@
   - python ---.pyで実行させる。bash系は環境変数を設定する。
   - 
 
-Welcome to GenPerturb Github repository.
+Welcome to GenPerturb Github repository.  
 This repository hosts the code and tools developed for benchmarking transfer learning in genomic DNA models. The repository includes implementations for transfer learning using genomic DNA models, such as Enformer, and evaluating their ability to predict perturbation-induced gene expression changes from DNA sequences. It also provides scripts for preprocessing datasets, running experiments across multiple conditions and datasets, and applying model interpretation methods to investigate regulatory elements and transcription factor motifs. The code is designed to facilitate the reproduction of results, the exploration of transfer learning approaches, and further development of predictive models in genomic research.
 
 ---
 ## Requirements
-- Feature-based : GPU memory 5GB~ 
-- Fine tuning : GPU memory 49GB~ (e.g. NVIDIA RTX 6000 Ada)
+- Feature-based : GPU memory 8GB~
+- LoRA : GPU memory 20GB~
+- Fine-tuning : GPU memory 49GB~ (e.g. NVIDIA RTX 6000 Ada)
 
 ## Setup Instructions
 Create a virtual environment using miniconda:
@@ -62,7 +63,7 @@ The training script can be executed as follows:
 python 02_qsub_script.py $STUDY $STUDY_PLAN $MODEL
 ```
 
-The prediction and evaluation results will be saved in the prediction/ and figures/ directory.
+The prediction and evaluation results will be saved in the prediction/ and figures/ directory.  
 The trained checkpoint file will be saved in the logs/ directory.
 
 ---
