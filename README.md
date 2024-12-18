@@ -3,7 +3,8 @@
 ![License](https://img.shields.io/badge/license-MIT-green)
 
 ### やること
-- デモデータを作る。その他スクリプトのディレクトリを作る
+- デモデータを作る。必要なデータだけcpすればいい感じ。
+- その他スクリプトのディレクトリを作る
 - trainingだけ分けてUsageなどに書いていく。個別のデータの解析
 - その他コードはpreprocessingとevaluationにまとめる。複数データをまとめているので、デモは難しいので。
   - python ---.pyで実行させる。bash系は環境変数を設定する。
@@ -38,49 +39,55 @@ This environment supports transfer learning for all models available on Hugging 
 
 
 ## Usage
+Demonstrating feature-based transfer learning using example datasets.
 Environment variables are configured according to the dataset and training method.
 ```
-$ STUDY=
-$ STUDY_SUFFIX=
+$ MODEL="enformer"
+$ STUDY="NormanWeissman2019_filtered_mixscape_exnp_train"
+$ STUDY_SUFFIX="${MODEL}_transfer_epoch100_batch256_adamw5e3"
 ```
 
-Demonstrating feature-based transfer learning using example datasets.
-The main script can be executed as follows:
+The demo datasets are stored in the following locations and are referenced within the python script.
+```
+data/${STUDY}.tsv # pseudo-bulk Perturb-seq data
+data/${STUDY}.h5 # pre-embedding data
+fasta/{STUDY}.bed # TSS positions of genes included in the training data
+fasta/GRCh38.p13.genome.fa # fasta file
+```
+
+The training script can be executed as follows:
 ```
 python 02_qsub_script.py $STUDY $STUDY_PLAN $MODEL
 ```
 
-Results will be saved in the results/ directory.
-
-## Output
+The prediction and evaluation results will be saved in the prediction/ and figures/ directory.
+The trained checkpoint file will be saved in the logs/ directory.
 
 ---
 ## Preprocessing of single-cell data and pre-embedding
 
+
 ---
 ## Model evaluation
 The scripts used to evaluate the models in the paper are listed below. Each script is categorized into those for setting up the analysis environment and those for executing the analysis.
-- Environment : /environment directory
-- Script : /analysis directory
 ```
-$ cd GenPerturb # All scripts should be executed within this directory.
+$ cd GenPerturb # All scripts should be executed within root directory.
 ```
-
 
 ### Evaluation of clustering and gene signature
 - Environment :
-  - /environment/
+  - environment/
 - Script :
-  - /analysis/
+  - analysis/
 ```
 
 ```
 
 ### Model interpretation using Captum
 - Environment :
-  - /environment/
+  - environment/
 - Script :
-  - /analysis/
+  - analysis/
 For Enformer:
 ```
 $ STUDY=
@@ -104,23 +111,23 @@ python 11_evaluate_attribution.py $STUDY $STUDY_SUFFIX
 
 ### Visualization of attribution and ChIP-seq data in BigWig format using CoolBox.
 - Environment :
-  - /environment/
+  - environment/
 - Script :
-  - /analysis/
+  - analysis/
  
     
 ### Enrichment analysis of genome tracks
 - Environment :
-  - /environment/
+  - environment/
 - Script :
-  - /analysis/
+  - analysis/
 
 
 ### Motif detection using TF-MoDISco
 - Environment :
-  - /environment/
+  - environment/
 - Script :
-  - /analysis/
+  - analysis/
 
 
 ---
