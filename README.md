@@ -9,7 +9,7 @@ This repository hosts the code and tools developed for benchmarking transfer lea
 - Fine tuning : GPU memory 49GB~ (e.g. NVIDIA RTX 6000 Ada)
 
 ## Setup Instructions
-Create a virtual environment using miniconda (recommended):
+Create a virtual environment using miniconda:
 ```
 conda create -n enformer  python=3.10
 conda activate enformer
@@ -22,13 +22,19 @@ pip install enformer-pytorch pytorch-lightning captum peft==0.4.0 deepspeed pyth
 Then,
 ```
 $ git clone https://github.com/rikenbit/GenPerturb.git
-$ cd 
+$ cd GenPerturb # All scripts should be executed within this directory.
 ```
 
 This environment supports transfer learning for all models available on Hugging Face, not limited to Enformer (including HyenaDNA and Nucleotide Transformer).
 
 
 ## Usage
+Environment variables are configured according to the dataset and training method.
+```
+$ STUDY=
+$ STUDY_SUFFIX=
+```
+
 Demonstrating feature-based transfer learning using example datasets.
 The main script can be executed as follows:
 ```
@@ -44,22 +50,61 @@ Results will be saved in the results/ directory.
 The scripts used to evaluate the models in the paper are listed below. Each script is categorized into those for setting up the analysis environment and those for executing the analysis.
 - Environment : /environment directory
 - Script : /analysis directory
+For Enformer:
+```
+$ STUDY=
+$ STUDY_SUFFIX=
+python 10_captum.py $STUDY $STUDY_SUFFIX seq top
+python 10_captum.py $STUDY $STUDY_SUFFIX seq all
+python 10_captum.py $STUDY $STUDY_SUFFIX seq condition
+python 10_captum.py $STUDY $STUDY_SUFFIX pert condition
+python 10_captum.py $STUDY $STUDY_SUFFIX pert all
+python 10_captum.py $STUDY $STUDY_SUFFIX pert tf
+python 11_evaluate_attribution.py $STUDY $STUDY_SUFFIX
+```
+For HyenaDNA and Nucleotide Transformer
+```
+$ STUDY=
+$ STUDY_SUFFIX=
+$ MODEL=
+python 10_captum_token.py $STUDY $STUDY_SUFFIX $MODEL seq condition
+python 11_evaluate_attribution.py $STUDY $STUDY_SUFFIX
+```
 
 ### Preprocessing and analysis of single-cell data
 - Environment :
   - /environment/
 - Script :
   - /analysis/
+```
+
+```
 
 ### Model interpretation using Captum
-
+- Environment :
+  - /environment/
+- Script :
+  - /analysis/
 
 ### Visualization of attribution and ChIP-seq data in BigWig format using CoolBox.
-
+- Environment :
+  - /environment/
+- Script :
+  - /analysis/
+ 
+    
 ### Enrichment analysis of genome tracks
+- Environment :
+  - /environment/
+- Script :
+  - /analysis/
+
 
 ### Motif detection using TF-MoDISco
-
+- Environment :
+  - /environment/
+- Script :
+  - /analysis/
 
 ## Citation
 ```
