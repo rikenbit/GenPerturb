@@ -60,7 +60,7 @@ fasta/GRCh38.p13.genome.fa # fasta file
 
 The training script can be executed as follows:
 ```
-python 02_qsub_script.py $STUDY $STUDY_PLAN $MODEL
+python 02_qsub_script.py $STUDY $STUDY_SUFFIX $MODEL
 ```
 
 The prediction and evaluation results will be saved in the prediction/ and figures/ directory.  
