@@ -4,6 +4,7 @@
 
 ### やること
 - デモデータを作る。必要なデータだけcpすればいい感じ。
+- gff2~のツールをリポジトリにそのまま突っ込む。
 - その他スクリプトのディレクトリを作る
 - trainingだけ分けてUsageなどに書いていく。個別のデータの解析
 - その他コードはpreprocessingとevaluationにまとめる。複数データをまとめているので、デモは難しいので。
@@ -65,29 +66,29 @@ The trained checkpoint file will be saved in the logs/ directory.
 
 ---
 ## Preprocessing of single-cell data and pre-embedding
-
+Data preparation for training and model evaluation is performed using scripts in the following directory. 
+This includes downloading and processing single-cell data, downloading ChIP-seq and motif data, obtaining pre-embedding values, and creating BED files that define TSS regions.
+```
+genperturb/preprocess/*
+```
 
 ---
 ## Model evaluation
-The scripts used to evaluate the models in the paper are listed below. Each script is categorized into those for setting up the analysis environment and those for executing the analysis.
-```
-$ cd GenPerturb # All scripts should be executed within root directory.
-```
+The evaluation scripts required for reproducing the results of the paper are listed below. 
+Most scripts perform comparisons between datasets or models. To execute these scripts, it is necessary to prepare all the data used under the conditions specified in the paper.
 
 ### Evaluation of clustering and gene signature
-- Environment :
-  - environment/
-- Script :
-  - analysis/
-```
+- environment/
+  - 
+- analysis/
+  - 
 
-```
 
 ### Model interpretation using Captum
-- Environment :
-  - environment/
-- Script :
-  - analysis/
+- environment/
+  - 
+- analysis/
+  - 
 For Enformer:
 ```
 $ STUDY=
@@ -110,24 +111,24 @@ python 11_evaluate_attribution.py $STUDY $STUDY_SUFFIX
 ```
 
 ### Visualization of attribution and ChIP-seq data in BigWig format using CoolBox.
-- Environment :
-  - environment/
-- Script :
-  - analysis/
+- environment/
+  - 
+- analysis/
+  - 
  
     
 ### Enrichment analysis of genome tracks
-- Environment :
-  - environment/
-- Script :
-  - analysis/
+- environment/
+  - 
+- analysis/
+  - 
 
 
 ### Motif detection using TF-MoDISco
-- Environment :
-  - environment/
-- Script :
-  - analysis/
+- environment/
+  - 
+- analysis/
+  - 
 
 
 ---
