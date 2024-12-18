@@ -42,10 +42,10 @@ This environment supports transfer learning for all models available on Hugging 
 
 
 ## Usage
-Demonstrating feature-based transfer learning using example datasets.
+Demonstrating transfer learning using Enformer and example datasets.
 Environment variables are configured according to the dataset and training method.
 ```
-$ MODEL="enformer"
+$ MODEL="enformer" # To train other models, change to hyena_dna_last, hyena_dna_mean, nucleotide_transformer_tss, or nucleotide_transformer_cls.
 $ STUDY="NormanWeissman2019_filtered_mixscape_exnp_train"
 $ STUDY_SUFFIX="${MODEL}_transfer_epoch100_batch256_adamw5e3"
 ```
@@ -58,9 +58,9 @@ fasta/{STUDY}.bed # TSS positions of genes included in the training data
 fasta/GRCh38.p13.genome.fa # fasta file
 ```
 
-The training script can be executed as follows:
+The training script for feature-based transfer learning can be executed as follows:
 ```
-python 02_qsub_script.py $STUDY $STUDY_SUFFIX $MODEL
+python 02_qsub_script.py $STUDY transfer $MODEL # When performing fine-tuning, replace "transfer" with either "finetuning" or "lora".
 ```
 
 The prediction and evaluation results will be saved in the prediction/ and figures/ directory.  
@@ -69,7 +69,7 @@ The trained checkpoint file will be saved in the logs/ directory.
 ---
 ## Preprocessing of single-cell data and pre-embedding
 Data preparation for training and model evaluation is performed using scripts in the following directory.  
-This includes downloading and processing single-cell data, obtaining pre-embedding values, creating BED files that define TSS regions, downloading ChIP-seq and motif data, and so on.
+This includes downloading and preprocessing single-cell data, obtaining pre-embedding values, creating BED files that define TSS regions, downloading ChIP-seq and motif data, and so on.
 ```
 genperturb/preprocess/*
 ```
