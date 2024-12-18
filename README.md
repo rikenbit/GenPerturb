@@ -1,4 +1,14 @@
 # GenPerturb
+![Python Version](https://img.shields.io/badge/python-3.10%20%7C%203.9%20%7C%203.10-blue)
+![License](https://img.shields.io/badge/license-MIT-green)
+
+### やること
+- デモデータを作る。その他スクリプトのディレクトリを作る
+- trainingだけ分けてUsageなどに書いていく。個別のデータの解析
+- その他コードはpreprocessingとevaluationにまとめる。複数データをまとめているので、デモは難しいので。
+  - python ---.pyで実行させる。bash系は環境変数を設定する。
+  - 
+
 
 ## Overview
 This repository hosts the code and tools developed for benchmarking transfer learning in genomic DNA models. The repository includes implementations for transfer learning using genomic DNA models, such as Enformer, and evaluating their ability to predict perturbation-induced gene expression changes from DNA sequences. It also provides scripts for preprocessing datasets, running experiments across multiple conditions and datasets, and applying model interpretation methods to investigate regulatory elements and transcription factor motifs. The code is designed to facilitate the reproduction of results, the exploration of transfer learning approaches, and further development of predictive models in genomic research.
@@ -46,6 +56,8 @@ Results will be saved in the results/ directory.
 ## Output
 
 
+## Preprocessing of single-cell data and pre-embedding
+
 ## Model evaluation
 The scripts used to evaluate the models in the paper are listed below. Each script is categorized into those for setting up the analysis environment and those for executing the analysis.
 - Environment : /environment directory
@@ -55,7 +67,7 @@ $ cd GenPerturb # All scripts should be executed within this directory.
 ```
 
 
-### Preprocessing and analysis of single-cell data
+### Evaluation of clustering and gene signature
 - Environment :
   - /environment/
 - Script :
