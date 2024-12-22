@@ -1,9 +1,7 @@
 # GenPerturb
-![Python Version](https://img.shields.io/badge/python-3.8--3.10-blue)
+![Python Version](https://img.shields.io/badge/python-3.8-|-3.10-blue)
 ![License](https://img.shields.io/badge/license-MIT-green)
 
-### やること
-- gff2~のツールをリポジトリにそのまま突っ込む。
 
 Welcome to GenPerturb Github repository.  
 <br>
