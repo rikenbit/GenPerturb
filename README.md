@@ -45,9 +45,15 @@ $ MODEL="enformer" # To train other models, change to hyena_dna_last, hyena_dna_
 $ STUDY="NormanWeissman2019_filtered_mixscape_exnp_train"
 $ STUDY_SUFFIX="${MODEL}_transfer_epoch100_batch256_adamw5e3"
 ```
-
-The demo datasets are stored in the following locations and are referenced within the python script.
+The demo datasets can be downloaded from the sources listed below.
+- pseudo-bulk, pre-embedding, TSS bed
+  - https://drive.google.com/drive/folders/1YLDwZWXUEzv2_i4OgFdOemmGtR5S9XMf?usp=sharing
+- fasta file
+  - https://www.gencodegenes.org/human/release_32.html
+The downloaded data should be organized using the directory structure shown below.
 ```
+$ cd GenPerturb
+$ ls
 data/${STUDY}.tsv # pseudo-bulk Perturb-seq data
 data/${STUDY}.h5 # pre-embedding data
 fasta/{STUDY}.bed # TSS positions of genes included in the training data
@@ -56,7 +62,8 @@ fasta/GRCh38.p13.genome.fa # fasta file
 
 The training script for feature-based transfer learning can be executed as follows:
 ```
-python 02_qsub_script.py $STUDY transfer $MODEL # When performing fine-tuning, replace "transfer" with either "finetuning" or "lora".
+$ cp analysis_script/02_qsub_script.py .
+$ python 02_qsub_script.py $STUDY transfer $MODEL # When performing fine-tuning, replace "transfer" with either "finetuning" or "lora".
 ```
 
 The prediction and evaluation results will be saved in the prediction/ and figures/ directory.  
