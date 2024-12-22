@@ -3,15 +3,7 @@
 ![License](https://img.shields.io/badge/license-MIT-green)
 
 ### やること
-- デモデータを作る。必要なデータだけcpすればいい感じ。
 - gff2~のツールをリポジトリにそのまま突っ込む。
-- その他スクリプトのディレクトリを作る
-- trainingだけ分けてUsageなどに書いていく。個別のデータの解析
-- その他コードはpreprocessingとevaluationにまとめる。複数データをまとめているので、デモは難しいので。
-  - treeで書く。
-  - python ---.pyで実行させる。bash系は環境変数を設定する。
-  - 
-
 
 Welcome to GenPerturb Github repository.  
 <br>
@@ -20,8 +12,6 @@ It also provides scripts for preprocessing datasets, running experiments across 
 The code is designed to facilitate the reproduction of results, the exploration of transfer learning approaches, and further development of predictive models in genomic research.  
 <br>
 <br>
-![Fig1](https://github.com/user-attachments/assets/302d2916-9e84-4d59-b790-21a3c5de0dcb)
-
 
 ---
 ## Requirements
@@ -83,63 +73,22 @@ genperturb/preprocess/*
 ```
 
 ---
-## Model evaluation
+## Model evaluation 
 The evaluation scripts required for reproducing the results of the paper are listed below.  
 Most scripts perform comparisons between datasets or models. To execute these scripts, it is necessary to prepare all the data used under the conditions specified in the paper.
-
-### Evaluation of clustering and gene signature
-- environment/
-  - 
-- analysis/
-  - 
-
-
-### Model interpretation using Captum
-- environment/
-  - 
-- analysis/
-  - 
-For Enformer:
 ```
-$ STUDY=
-$ STUDY_SUFFIX=
-python 10_captum.py $STUDY $STUDY_SUFFIX seq top
-python 10_captum.py $STUDY $STUDY_SUFFIX seq all
-python 10_captum.py $STUDY $STUDY_SUFFIX seq condition
-python 10_captum.py $STUDY $STUDY_SUFFIX pert condition
-python 10_captum.py $STUDY $STUDY_SUFFIX pert all
-python 10_captum.py $STUDY $STUDY_SUFFIX pert tf
-python 11_evaluate_attribution.py $STUDY $STUDY_SUFFIX
+analysis_script/*
 ```
-For HyenaDNA and Nucleotide Transformer
+The analysis environments are set up based on the scripts provided below, with each analysis script specifying the environment required for its execution.
 ```
-$ STUDY=
-$ STUDY_SUFFIX=
-$ MODEL=
-python 10_captum_token.py $STUDY $STUDY_SUFFIX $MODEL seq condition
-python 11_evaluate_attribution.py $STUDY $STUDY_SUFFIX
+crearte_env.sh
 ```
-
-### Visualization of attribution and ChIP-seq data in BigWig format using CoolBox.
-- environment/
-  - 
-- analysis/
-  - 
- 
-    
-### Enrichment analysis of genome tracks
-- environment/
-  - 
-- analysis/
-  - 
-
-
-### Motif detection using TF-MoDISco
-- environment/
-  - 
-- analysis/
-  - 
-
+### Evaluation items included in the script
+- Evaluation of clustering and gene signature
+- Model interpretation using Captum
+- Visualization of attribution and ChIP-seq data in BigWig format using CoolBox.
+- Enrichment analysis of genome tracks
+- Motif detection using TF-MoDISco
 
 ---
 ## Acknowledgments
