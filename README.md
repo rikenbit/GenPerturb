@@ -50,6 +50,7 @@ The demo datasets can be downloaded from the sources listed below.
   - https://drive.google.com/drive/folders/1YLDwZWXUEzv2_i4OgFdOemmGtR5S9XMf?usp=sharing
 - fasta file
   - https://www.gencodegenes.org/human/release_32.html
+  
 The downloaded data should be organized using the directory structure shown below.
 ```
 $ cd GenPerturb
