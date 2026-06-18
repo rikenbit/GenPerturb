@@ -13,13 +13,9 @@ all_studies = [
     "Srivatsan2019_A549_train",
     "Srivatsan2019_K562_train",
     "Srivatsan2019_MCF7_train",
-    # MartinRufino
     "MartinRufino2025_mixscape_exnp_train",
-    # Wu et al., 2024 (GSE277747) — Mixscape-filtered (only SMARCA4 survives)
     "Wu2024_mixscape_exnp_train",
-    # Wu et al., 2024 (GSE277747) — non-Mixscape (80+ perts)
     "Wu2024_train",
-    # Shevade et al., 2025 (GSE288996, K562 DMSO bulk)
     "Shevade2025_K562_DMSO_mixscape_exnp_train",
 ]
 
@@ -35,13 +31,9 @@ all_xlabels = [
     "Srivatsan et al. A549",
     "Srivatsan et al. K562",
     "Srivatsan et al. MCF7",
-    # MartinRufino
     "Martin-Rufino et al.",
-    # Wu (Mixscape-filtered)
     "Wu et al. (Mixscape)",
-    # Wu (all cells, no Mixscape)
     "Wu et al.",
-    # Shevade
     "Shevade et al. K562 DMSO",
 ]
 
@@ -57,13 +49,9 @@ all_datanames = [
     "Srivatsan et al. A549",
     "Srivatsan et al. K562",
     "Srivatsan et al. MCF7",
-    # MartinRufino
     "Martin-Rufino et al.",
-    # Wu (Mixscape-filtered)
     "Wu et al. (Mixscape)",
-    # Wu (all cells, no Mixscape)
     "Wu et al.",
-    # Shevade
     "Shevade et al. K562 DMSO",
 ]
 
@@ -112,16 +100,10 @@ all_study_suffixes = [
     "finetuning_epoch40_batch2_adamw5e3_full_plr1e10",
 ]
 
-# Models whose training suffix differs from the standard study_suffixes.
-# When iterating pretrained_models × study_suffixes, scripts should check
-# this dict first: if the model appears here, use the fixed suffix instead
-# of every entry in study_suffixes.
 model_fixed_suffix = {
     "simplecnn": "baseline_epoch150_batch2_adamw5e3",
 }
 
-# Model comparison colors. Refined editorial palette — each model in its own family:
-# alphagenome -> rose-wine, borzoi -> sage-forest, enformer -> steel blue, baselines -> gray.
 _model_color_map = {
     "alphagenome": "#BC5765",
     "borzoi": "#6B9D7A",

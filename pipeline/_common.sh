@@ -26,12 +26,12 @@ fi
 export PROJECT_ROOT
 export PYTHONPATH="${PROJECT_ROOT}:${PYTHONPATH:-}"
 
-CONDA_SH="${CONDA_SH:-/lustre/home/tshii/miniconda3/etc/profile.d/conda.sh}"
+CONDA_SH="${CONDA_SH:-/path/to/miniconda3/etc/profile.d/conda.sh}"
 export CONDA_SH
 
-PARTITION_GPU="${PARTITION_GPU:-h200-long}"
-PARTITION_CPU="${PARTITION_CPU:-mi300x-long}"
-GPU_GRES="${GPU_GRES:-gpu:h200:1}"
+PARTITION_GPU="${PARTITION_GPU:-gpu}"
+PARTITION_CPU="${PARTITION_CPU:-cpu}"
+GPU_GRES="${GPU_GRES:-gpu:1}"
 MEM_GPU="${MEM_GPU:-240G}"
 MEM_HEAVY="${MEM_HEAVY:-128G}"
 MEM_LIGHT="${MEM_LIGHT:-64G}"

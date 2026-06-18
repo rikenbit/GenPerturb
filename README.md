@@ -36,21 +36,24 @@ Cluster-specific defaults such as `CONDA_SH`, SLURM partitions, GPU resources,
 memory, model list, and study list are centralized in `pipeline/_common.sh`.
 Before running the wrappers, edit these defaults or override them from the
 shell so that paths, partitions, GPU GRES strings, memory limits, and study
-lists match the target cluster. The committed defaults reflect the local
-analysis environment and should not be submitted unchanged on another system.
+lists match the target cluster. The committed values intentionally use generic
+placeholders for publication; they must be replaced with paths and SLURM
+settings from the target system before submitting jobs.
 
 ```bash
 CONDA_SH=/path/to/miniconda3/etc/profile.d/conda.sh \
 PARTITION_GPU=gpu \
+PARTITION_CPU=cpu \
 GPU_GRES=gpu:1 \
 bash pipeline/01_training/01a_transfer.sh alphagenome
 ```
 
 Some long-running GPU wrappers also set node constraints outside
-`pipeline/_common.sh`. In particular, check `NODELIST` defaults in
+`pipeline/_common.sh`. `NODELIST` is optional in
 `pipeline/01_training/01d_lora.sh` and
-`pipeline/01_training/01e_full_finetuning.sh`, and update any hard-coded GPU
-node names in figure-specific wrappers before submitting jobs.
+`pipeline/01_training/01e_full_finetuning.sh`; set it only when the target
+cluster requires a specific node. The Fig. 3 mutation wrapper uses
+`MUTATION_NODES` for optional comma-separated node names.
 
 ## 1. Environment Setup
 
@@ -62,8 +65,10 @@ less create_env.sh
 ```
 
 The script is organized by environment rather than as a fully portable one-shot
-installer. In particular, check CUDA/PyTorch versions, cluster paths, and token
-configuration before executing commands. 
+installer. In particular, check CUDA/PyTorch versions, cluster paths, optional
+external source directories such as `BEND_SRC_DIR`, and token configuration
+before executing commands. Any `/path/to/...` placeholders in this repository
+must be replaced or overridden before execution.
 
 The main environments are:
 
@@ -273,9 +278,10 @@ Fig. 3 uses the root-output `attribution/` route, not the
 `attribution_analysis/` route. After the Fig. 3 Captum, CRE, GimmeMotifs, and
 TF-MoDISco steps above, run the remaining paper-panel steps as needed:
 
-Before running the mutation array wrapper, confirm that its GPU partition, GRES
-string, and node names match the available cluster nodes; the checked-in script
-may include local node names such as `gpu02` and `gpu03`.
+Before running the mutation array wrapper, confirm that its GPU partition and
+GRES string match the available cluster. If jobs must be pinned to selected
+nodes, pass a comma-separated `MUTATION_NODES` value; otherwise the scheduler
+selects nodes.
 
 ```bash
 # Martin ATAC AUPRC for Fig. 3d and Fig. S9.
@@ -286,7 +292,7 @@ bash pipeline/fig3_attribution/40_prepare_seqlet_metadata.sh
 
 # Full seqlet set for Fig. 3a-c.
 bash pipeline/fig3_attribution/41_prepare_mutation_targets.sh Martin_full
-bash pipeline/fig3_attribution/42_run_mutation_array.sh Martin_full
+MUTATION_NODES=gpu-a,gpu-b bash pipeline/fig3_attribution/42_run_mutation_array.sh Martin_full
 bash pipeline/fig3_attribution/43_post_mutation_figures.sh Martin_full
 
 # Matched seqlet set for Fig. 3f.

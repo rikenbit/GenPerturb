@@ -10,8 +10,8 @@
 # It does not use attribution_analysis/ and should not be used for Fig. 4.
 
 #SBATCH --job-name=fig3_captum
-#SBATCH --partition=h200-long
-#SBATCH --gres=gpu:h200:1
+#SBATCH --partition=gpu
+#SBATCH --gres=gpu:1
 #SBATCH --mem=240G
 #SBATCH --cpus-per-task=4
 #SBATCH --time=8:00:00

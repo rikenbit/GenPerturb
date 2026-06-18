@@ -12,7 +12,7 @@
 #
 
 #SBATCH --job-name=tfmodisco
-#SBATCH --partition=h200-long
+#SBATCH --partition=cpu
 #SBATCH --mem=120G
 #SBATCH --cpus-per-task=16
 #SBATCH --time=4:00:00

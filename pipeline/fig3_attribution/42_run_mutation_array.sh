@@ -15,9 +15,11 @@ STUDY_DIR="attribution_analysis/insilico_mutation/${STUDY}"
 LOGDIR="${STUDY_DIR}/log"
 TASKFILE="${STUDY_DIR}/tasks.txt"
 RESULTDIR="${STUDY_DIR}/results"
-PARTITION="h200-long"
-MAX_PER_NODE=8
-MEM_PER_JOB="60G"
+MUTATION_PARTITION="${MUTATION_PARTITION:-${PARTITION_GPU}}"
+MUTATION_GRES="${MUTATION_GRES:-${GPU_GRES}}"
+MUTATION_NODES="${MUTATION_NODES:-}"
+MAX_PER_NODE="${MAX_PER_NODE:-8}"
+MEM_PER_JOB="${MEM_PER_JOB:-60G}"
 
 mkdir -p "$LOGDIR"
 mkdir -p "$RESULTDIR"
@@ -25,19 +27,13 @@ mkdir -p "$RESULTDIR"
 NTASKS=$(wc -l < "$TASKFILE")
 echo "Study:       $STUDY"
 echo "Total tasks: $NTASKS genes"
-echo "Target:      gpu02 (max $MAX_PER_NODE) + gpu03 (max $MAX_PER_NODE) = 16 parallel"
-echo
-
-TASKFILE_02="${STUDY_DIR}/tasks_gpu02.txt"
-TASKFILE_03="${STUDY_DIR}/tasks_gpu03.txt"
-
-awk 'NR%2==1' "$TASKFILE" > "$TASKFILE_02"
-awk 'NR%2==0' "$TASKFILE" > "$TASKFILE_03"
-
-N02=$(wc -l < "$TASKFILE_02")
-N03=$(wc -l < "$TASKFILE_03")
-echo "  -> gpu02 partition: $N02 tasks ($TASKFILE_02)"
-echo "  -> gpu03 partition: $N03 tasks ($TASKFILE_03)"
+echo "Partition:   $MUTATION_PARTITION"
+echo "GRES:        $MUTATION_GRES"
+if [ -n "$MUTATION_NODES" ]; then
+    echo "Nodes:       $MUTATION_NODES (max $MAX_PER_NODE jobs per node)"
+else
+    echo "Nodes:       scheduler selected (max $MAX_PER_NODE concurrent jobs)"
+fi
 echo
 
 submit_node() {
@@ -57,18 +53,22 @@ submit_node() {
         echo "  Submitting on $NODE: offset=${OFFSET}, size=${BATCH_SIZE}"
 
         local JOBID
-        JOBID=$(sbatch --parsable \
+        SBATCH_ARGS=(
+            --parsable
             --job-name="mut52_${STUDY}_${NODE}" \
-            --partition="$PARTITION" \
-            --nodelist="$NODE" \
+            --partition="$MUTATION_PARTITION" \
             --nodes=1 \
-            --gres=gpu:h200:1 \
+            --gres="$MUTATION_GRES" \
             --mem="$MEM_PER_JOB" \
             --cpus-per-task=2 \
             --array=1-${BATCH_SIZE}%${MAX_PER_NODE} \
             --output="${LOGDIR}/mutation_${NODE}_%A_%a.out" \
             --error="${LOGDIR}/mutation_${NODE}_%A_%a.err" \
-            --export=ALL,TASK_OFFSET=${OFFSET},STUDY=${STUDY},NODE_TASKFILE=${NODE_TASKFILE},PROJECT_ROOT=${CWD},CONDA_SH=${CONDA_SH} \
+            --export=ALL,TASK_OFFSET=${OFFSET},STUDY=${STUDY},NODE_TASKFILE=${NODE_TASKFILE},PROJECT_ROOT=${CWD},CONDA_SH=${CONDA_SH}
+        )
+        [ "$NODE" != "scheduler" ] && SBATCH_ARGS+=(--nodelist="$NODE")
+
+        JOBID=$(sbatch "${SBATCH_ARGS[@]}" \
             <<'SBATCH_EOF'
 #!/bin/bash
 set -euo pipefail
@@ -114,13 +114,23 @@ SBATCH_EOF
     done
 }
 
-if [ $N02 -gt 0 ]; then
-    submit_node "gpu02" "$TASKFILE_02" "$N02"
+if [ -n "$MUTATION_NODES" ]; then
+    IFS=',' read -r -a NODE_ARRAY <<< "$MUTATION_NODES"
+else
+    NODE_ARRAY=("scheduler")
 fi
-if [ $N03 -gt 0 ]; then
-    submit_node "gpu03" "$TASKFILE_03" "$N03"
-fi
+
+for i in "${!NODE_ARRAY[@]}"; do
+    NODE="${NODE_ARRAY[$i]}"
+    NODE_TASKFILE="${STUDY_DIR}/tasks_${NODE}.txt"
+    awk -v n="${#NODE_ARRAY[@]}" -v r="$i" '((NR - 1) % n) == r' "$TASKFILE" > "$NODE_TASKFILE"
+    NODE_NTASKS=$(wc -l < "$NODE_TASKFILE")
+    echo "  -> ${NODE}: ${NODE_NTASKS} tasks (${NODE_TASKFILE})"
+    if [ "$NODE_NTASKS" -gt 0 ]; then
+        submit_node "$NODE" "$NODE_TASKFILE" "$NODE_NTASKS"
+    fi
+done
 
 echo
 echo "All batches submitted."
-echo "Monitor: squeue -u \$USER -n mut52_${STUDY}_gpu02,mut52_${STUDY}_gpu03"
+echo "Monitor: squeue -u \$USER -n mut52_${STUDY}_*"

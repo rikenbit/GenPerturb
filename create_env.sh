@@ -1,5 +1,8 @@
-#Create individual analysis environments using conda.
-#At the beginning of each script in the analysis_script directory, the specific environment to be used is indicated.
+# Create individual analysis environments using conda.
+# Adjust PROJECT_ROOT, BEND_SRC_DIR, CUDA/PyTorch versions, and token setup for
+# the target system before running these blocks.
+
+PROJECT_ROOT="${PROJECT_ROOT:-$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)}"
 
 ## singlecell
 conda create -n singlecell  python=3.10
@@ -43,8 +46,10 @@ cp .env.template .env # write HF_TOKEN to .env
 ## simple cnn
 conda create -y -n bend python=3.10
 conda activate bend
-git clone https://github.com/frederikkemarin/BEND.git /lustre/home/tshii/gitrepo/BEND
-cd /lustre/home/tshii/gitrepo/BEND
+BEND_SRC_DIR="${BEND_SRC_DIR:-${PROJECT_ROOT}/external/BEND}"
+mkdir -p "$(dirname "${BEND_SRC_DIR}")"
+git clone https://github.com/frederikkemarin/BEND.git "${BEND_SRC_DIR}"
+cd "${BEND_SRC_DIR}"
 git checkout ac6e80c75e09d83cf47a7b4bcf0e44599c5706cf
 pip install -r requirements.txt
 pip install -e .
@@ -59,29 +64,29 @@ pip install pandas pyBigWig pybedtools modisco beautifulsoup4
 pip install torch polars pyfaidx
 
 ### fix error
-Prevent `AttributeError` during report generation when TomTom match entries contain `NaN` values instead of strings by checking the value type before calling `.strip()`.
-~/miniconda/envs/modisco/lib/python3.11/site-packages/modiscolite/descriptive_report.py
-      406          tomtom_logos[pattern_tag] = {}                                                                                                               
-      407          for i in range(top_n_matches):                                                                                                               
-      408              match_key = f'match_{i}'                                                                                                                 
-      409 -            if match_key in matches and matches[match_key]:                                                                                   
-      409 +            if match_key in matches and isinstance(matches[match_key], str) and matches[match_key]:                                           
-      410                  match_name = matches[match_key].strip()
-      411                  if match_name in motifs:
-      412                      # Create logo for this match
-     ...
-      434          name_parts = []
-      435          for i in range(min(top_n_matches, 3)):  # Use max 3 matches for name
-      436              match_key = f'match_{i}'
-      437 -            if match_key in matches and matches[match_key]:                                                                                   
-      437 +            if match_key in matches and isinstance(matches[match_key], str) and matches[match_key]:                                           
-      438                  match_name = matches[match_key].strip()
-      439                  # Take first 10 characters
-      440                  name_parts.append(match_name[:10])
+#Prevent `AttributeError` during report generation when TomTom match entries contain `NaN` values instead of strings by checking the value type before calling `.strip()`.
+#~/miniconda/envs/modisco/lib/python3.11/site-packages/modiscolite/descriptive_report.py
+#      406          tomtom_logos[pattern_tag] = {}                                                                                                               
+#      407          for i in range(top_n_matches):                                                                                                               
+#      408              match_key = f'match_{i}'                                                                                                                 
+#      409 -            if match_key in matches and matches[match_key]:                                                                                   
+#      409 +            if match_key in matches and isinstance(matches[match_key], str) and matches[match_key]:                                           
+#      410                  match_name = matches[match_key].strip()
+#      411                  if match_name in motifs:
+#      412                      # Create logo for this match
+#     ...
+#      434          name_parts = []
+#      435          for i in range(min(top_n_matches, 3)):  # Use max 3 matches for name
+#      436              match_key = f'match_{i}'
+#      437 -            if match_key in matches and matches[match_key]:                                                                                   
+#      437 +            if match_key in matches and isinstance(matches[match_key], str) and matches[match_key]:                                           
+#      438                  match_name = matches[match_key].strip()
+#      439                  # Take first 10 characters
+#      440                  name_parts.append(match_name[:10])
+
 
 
 ## gimmemotifs
-PROJECT_ROOT="${PROJECT_ROOT:-$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)}"
 git clone https://github.com/vanheeringen-lab/gimmemotifs.git gimmemotifs_src
 cd gimmemotifs_scr
 git checkout develop
