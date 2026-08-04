@@ -18,7 +18,8 @@ and analysis directories; routine use should go through the wrappers in
 ```text
 genperturb/, scripts/        Core preprocessing, model, training, and evaluation code
 pipeline/                    Reproducible entrypoints for preprocessing, training, attribution, and manuscript analyses
-create_env.sh                Conda environment setup notes
+environments/                Publication Conda environment specifications and post-install notes
+create_env.sh                Backward-compatible pointer to environments/
 ```
 
 The main pipeline phases are:
@@ -57,18 +58,14 @@ cluster requires a specific node. The Fig. 3 mutation wrapper uses
 
 ## 1. Environment Setup
 
-Environment setup is recorded in `create_env.sh`. Inspect the file and run the
-relevant conda blocks for the analyses you need:
+Environment setup is recorded as one curated Conda YAML file per analysis
+environment under `environments/`. Create only the environments needed for the
+analyses you plan to run:
 
 ```bash
-less create_env.sh
+conda env create -f environments/alphagenome.yml
+conda env create -f environments/modisco.yml
 ```
-
-The script is organized by environment rather than as a fully portable one-shot
-installer. In particular, check CUDA/PyTorch versions, cluster paths, optional
-external source directories such as `BEND_SRC_DIR`, and token configuration
-before executing commands. Any `/path/to/...` placeholders in this repository
-must be replaced or overridden before execution.
 
 The main environments are:
 
@@ -78,7 +75,7 @@ The main environments are:
 | `alphagenome` | AlphaGenome embeddings, transfer learning, Captum attribution |
 | `borzoi` | Borzoi embeddings, transfer learning, Captum attribution |
 | `enformer` | Enformer embeddings, transfer learning, Captum attribution |
-| `bend` | From-scratch SimpleCNN baseline |
+| `simplecnn` | From-scratch SimpleCNN baseline; depends on the Python package `bend` |
 | `modisco` | TF-MoDISco motif discovery and motif report generation |
 | `gimme` | GimmeMotifs motif discovery and motif enrichment summaries |
 
@@ -114,6 +111,15 @@ fasta/gencode.*.tss.bed             TSS table annotated with AlphaGenome fold la
 fasta/*_train*.bed                  Study-specific gene/TSS tables with train/val/test labels
 fasta/alphagenome/all_regions.bed   AlphaGenome fold intervals used to assign split labels
 reference/                          Motif databases and other external references
+```
+
+GimmeMotifs reference-genome registration is a data-preparation step, not an
+environment dependency. After creating the `gimme` environment and preparing
+the reference FASTA, register the local genome outside version control:
+
+```bash
+conda activate gimme
+genomepy install -p local fasta/GRCh38.p14.genome.fa
 ```
 
 Before embedding extraction,
@@ -373,3 +379,8 @@ required matrices, output panel paths, and composite figure script.
 - Before rerunning a manuscript figure, check the matching dependency document
   under `manuscript/method/` and confirm whether the figure uses `attribution/`
   or `attribution_analysis/`.
+
+## Associated Paper
+
+This repository accompanies the paper available at
+https://doi.org/10.64898/2026.07.01.735806.

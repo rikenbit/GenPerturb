@@ -1,0 +1,26 @@
+name: singlecell
+channels:
+  - conda-forge
+  - bioconda
+  - defaults
+dependencies:
+  - python=3.10.18
+  - pip=25.1
+  - pip:
+      - adpbulk==0.1.4
+      - pertpy==0.10.0
+      - muon==0.1.7
+      - typeguard==2.13.3
+      - decoupler==2.0.6
+      - pyscenic==0.12.1
+      - scanpy==1.11.2
+      - anndata==0.11.4
+      - mudata==0.3.2
+      - pandas==2.3.0
+      - numpy==2.2.6
+      - scikit-learn==1.7.0
+      - scipy==1.15.3
+      - matplotlib==3.10.3
+      - seaborn==0.13.2
+      - h5py==3.14.0
+      - pyarrow==20.0.0

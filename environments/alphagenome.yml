@@ -1,0 +1,33 @@
+name: alphagenome
+channels:
+  - conda-forge
+  - bioconda
+  - defaults
+dependencies:
+  - python=3.11.14
+  - pip=25.3
+  - bedtools=2.31.1
+  - pip:
+      - torch==2.10.0
+      - alphagenome==0.5.1
+      - alphagenome-pytorch==0.2.6
+      - alphagenome_research @ git+https://github.com/google-deepmind/alphagenome_research.git@8435b12d06a8f398bdca6987743676b03f8e472c
+      - pytorch-lightning==2.6.1
+      - captum==0.8.0
+      - peft==0.4.0
+      - deepspeed==0.18.5
+      - python-lora==2.0.0
+      - polars==1.37.1
+      - pyfaidx==0.9.0.3
+      - pyBigWig==0.3.25
+      - pybedtools==0.12.0
+      - macs3==3.0.3
+      - openpyxl==3.1.5
+      - pandas==2.3.3
+      - numpy==1.26.4
+      - scikit-learn==1.8.0
+      - scipy==1.16.3
+      - matplotlib==3.10.8
+      - seaborn==0.13.2
+      - h5py==3.15.1
+      - svglib==1.5.1
