@@ -52,7 +52,7 @@ activate_model_env() {
   elif [ "$model" == "alphagenome" ] || [[ "$model" == alphagenome_fold_* ]]; then
     pipeline_activate_conda alphagenome
   elif [ "$model" == "simplecnn" ]; then
-    pipeline_activate_conda bend
+    pipeline_activate_conda simplecnn
   else
     set +u
     source "${CONDA_SH:?CONDA_SH is required}"
@@ -155,7 +155,7 @@ elif [ "$PARAM" == "modisco" ]; then
   python scripts/attribution_evaluation/33_run_tfmodisco.py "${STUDY}" "${STUDY_SUFFIX}"
 
 elif [ "$PARAM" == "gimmemotifs" ]; then
-  pipeline_activate_conda gimmemotifs
+  pipeline_activate_conda gimme
   print_conda_envs
   STUDY="${1:?Usage: $0 -p gimmemotifs STUDY STUDY_SUFFIX}"
   STUDY_SUFFIX="${2:?Usage: $0 -p gimmemotifs STUDY STUDY_SUFFIX}"

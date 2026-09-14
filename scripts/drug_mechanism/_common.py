@@ -163,6 +163,13 @@ def load_drug_mech_data() -> dict:
         p for p in candidates
         if not is_combination_pert(p) and p in expr.index
     ]
+    inclusion_rows = []
+    for pert in sorted(set(tfm_abs_full.columns) | set(expr.index)):
+        reason = ("control" if "CONTROL" in pert else "combination" if is_combination_pert(pert)
+                  else "missing_motif_matrix" if pert not in tfm_abs_full.columns
+                  else "missing_expression" if pert not in expr.index else "")
+        inclusion_rows.append(dict(perturbation=pert, compound=extract_drug_name(pert),
+                                   included=int(not reason), exclusion_reason=reason))
     tfm_abs = tfm_abs_full[single_perts]
 
     mu = tfm_abs.mean(axis=1)
@@ -189,4 +196,5 @@ def load_drug_mech_data() -> dict:
         "fc_pseudo_df": fc_pseudo_df,
         "drug_names": drug_names,
         "single_perts": single_perts,
+        "inclusion_audit": pd.DataFrame(inclusion_rows),
     }

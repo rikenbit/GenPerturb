@@ -81,7 +81,7 @@ def preprocess_adata(study_name, study):
     adata_pred_all = AnnData(df2.T)
     df_test = df.query('training == "test"')
     adata_real = AnnData(df_test.drop("training", axis=1).T)
-    adata_pred = AnnData(df2.loc[df_test.index,:].T)
+    adata_pred = AnnData(df2.iloc[np.flatnonzero(df.training.eq("test"))].T)
     for adata in [adata_real_all, adata_pred_all, adata_real, adata_pred]:
         adata.var_names_make_unique()
         adata.obs[["study", "Perturbation"]] = [i.split(".", 1) for i in adata.obs.index]
@@ -293,7 +293,6 @@ for pretrained_model in pretrained_models:
 
             clust_stats_summary = calculate_cluster_stats(adata_pred_all, adata_pred, dataname, study)
             plot_barplot(clust_stats_summary, study)
-
 
 
 

@@ -1,6 +1,6 @@
 #!/bin/bash
 # ==============================================================================
-# Fig 2 / S1-S7: UMAP / clustering 
+# Fig 2 / S1-S7: UMAP / clustering / observed perturbation separation
 # ==============================================================================
 
 set -euo pipefail
@@ -12,3 +12,5 @@ pipeline_activate_conda singlecell
 
 python scripts/expression_model_performance/21_embedding_signature.py
 python scripts/expression_model_performance/22_compare_model_clustering.py
+# Fig S3b; reads clustering_metrics.txt written by 22
+python scripts/expression_model_performance/23_perturbation_separation.py

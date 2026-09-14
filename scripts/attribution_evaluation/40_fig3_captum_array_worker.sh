@@ -56,7 +56,7 @@ elif [ "$MODEL" == "borzoi" ]; then
 elif [[ "$MODEL" == alphagenome* ]]; then
     conda activate alphagenome
 elif [ "$MODEL" == "simplecnn" ]; then
-    conda activate bend
+    conda activate simplecnn
 else
     echo "WARNING: Unknown model '$MODEL', not activating a specific conda env."
 fi
