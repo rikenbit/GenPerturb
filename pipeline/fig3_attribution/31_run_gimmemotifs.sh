@@ -1,6 +1,6 @@
 #!/bin/bash
 # ==============================================================================
-# Fig 3e / S10a: root-output GimmeMotifs for the paper motif-discovery route
+# Fig. 4e / S9a: root-output GimmeMotifs for the motif-discovery route
 # ==============================================================================
 
 set -euo pipefail

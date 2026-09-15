@@ -1,6 +1,6 @@
 #!/bin/bash
 # ==============================================================================
-# Fig 3d / S9 / 20: Peak evaluation with MartinRufino ATAC ground truth (light CPU)
+# Fig. 4d / S8 / 20: Peak evaluation with MartinRufino ATAC ground truth (light CPU)
 # ==============================================================================
 
 set -euo pipefail

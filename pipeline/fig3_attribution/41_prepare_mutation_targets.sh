@@ -1,6 +1,6 @@
 #!/bin/bash
 # ==============================================================================
-# Fig 3f / 41: Prepare mutation targets before 42_run_mutation_array.sh
+# Fig. 4f / 41: Prepare mutation targets before 42_run_mutation_array.sh
 # ==============================================================================
 
 set -euo pipefail

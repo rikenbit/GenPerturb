@@ -1,5 +1,4 @@
 #!/usr/bin/env python
-"""Correct the duplicated-label selection using saved matrices, without inference."""
 import argparse
 import json
 from pathlib import Path
@@ -97,7 +96,7 @@ def main():
     record = dict(n_conditions=ads[0].n_obs, n_loci=ads[0].n_vars, control_included=True,
                   ari=adjusted_rand_score(ads[0].obs.leiden, ads[1].obs.leiden),
                   nmi=normalized_mutual_info_score(ads[0].obs.leiden, ads[1].obs.leiden, average_method="arithmetic"),
-                  status="corrected equal-locus clustering; not the original saved panel", scanpy=sc.__version__, seed=0)
+                  analysis="matched-locus clustering", scanpy=sc.__version__, seed=0)
     (a.out / "partition_metrics.json").write_text(json.dumps(record, indent=2) + "\n")
 
 

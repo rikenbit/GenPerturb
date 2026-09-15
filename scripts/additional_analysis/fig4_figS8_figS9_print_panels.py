@@ -1,14 +1,4 @@
 #!/usr/bin/env python
-"""Draw AUPRC and mutation panels at their final printed size.
-
-Panels: Fig. 4d, Fig. 4f, Fig. S8a, Fig. S8b, Fig. S9b.
-
-Each panel is drawn at its publication dimensions in millimetres, preserving
-font sizes when placed at 1:1 in the final layout.
-
-Values are read from analysis tables. The within-perturbation bootstrap
-intervals for Fig. S8a are computed from the scored candidates.
-"""
 from __future__ import annotations
 
 import argparse
@@ -26,8 +16,6 @@ from _common import output_dir, provenance
 MM = 1.0 / 25.4
 
 METHOD_ORDER = ["GenPerturb", "rE2G_extended", "rE2G", "ABC", "TSS_distance"]
-# "GenPerturb" rather than "Attribution": the hand-adjusted Fig. 4 panels d/e
-# already use that wording, and the panels below drop into that figure.
 METHOD_LABELS = ["GenPerturb", "rE2G ext.", "rE2G", "ABC", "TSS distance"]
 METHOD_COLORS = {"GenPerturb": "#4C92C3", "rE2G_extended": "#9B79C6", "rE2G": "#4CAF50",
                  "ABC": "#FF8C32", "TSS_distance": "#999999"}
@@ -77,8 +65,7 @@ def new_fig(canvas_w, canvas_h):
 
 def save(fig, out_dir: Path, name: str) -> None:
     out_dir.mkdir(parents=True, exist_ok=True)
-    # Transparent: these panels are dropped into a hand-laid-out figure and must
-    # not paint a white rectangle over it.
+    # Transparent backgrounds support placement in the composite figure.
     fig.savefig(out_dir / f"{name}.svg", transparent=True)
     fig.savefig(out_dir / f"{name}.png", dpi=300, facecolor="white")
     plt.close(fig)
@@ -134,9 +121,8 @@ def within_perturbation_ci(results_root: Path, n_bootstrap: int = 1000, seed: in
 # Panels
 # ---------------------------------------------------------------------------
 def panel_fig4d(results_root: Path, out_dir: Path) -> None:
-    """Mean AUPRC per stratum; geometry copied from the hand-adjusted Fig. 4d box."""
-    # Panel origin on the page is (7.0, 83.0) mm; the axes boxes reproduce the
-    # measured frames of the submitted Fig. 4d (page x 19.40/58.71/98.02/137.33).
+    """Draw mean AUPRC per distance stratum at publication dimensions."""
+    # Four axes share the widths and gaps used in the publication layout.
     canvas_w, canvas_h = 165.0, 42.0
     lefts = [12.40, 51.71, 91.02, 130.33]
     width, top, height = 33.36, 4.87, 26.08
@@ -225,7 +211,7 @@ def panel_figS8b(results_root: Path, out_dir: Path) -> None:
     left, width, gap = 16.0, 34.0, 5.0   # axes start aligned with panel a
     top, height = 5.0, 26.0
 
-    paired = pd.read_csv(results_root / "A3/paired_auprc_summary.tsv", sep="\t")
+    paired = pd.read_csv(results_root / "paired_comparison/paired_auprc_summary.tsv", sep="\t")
     paired = paired[paired.universe == "independent"]
     comparators = ["TSS_distance", "rE2G", "rE2G_extended", "ABC"]
     comp_labels = ["TSS distance", "rE2G", "rE2G ext.", "ABC"]
@@ -261,8 +247,8 @@ def panel_fig4f(results_root: Path, out_dir: Path, study: str = "Martin",
                 canvas: tuple[float, float] = (57.24, 41.49)) -> None:
     """High-attribution motif-minus-control effects, sized for the Fig. 4f box."""
     canvas_w, canvas_h = canvas
-    perts = pd.read_csv(results_root / f"A5_{study}_tertile_effects.tsv", sep="\t")
-    summary = pd.read_csv(results_root / f"A5_{study}_tertile_effects_summary.tsv", sep="\t")
+    perts = pd.read_csv(results_root / f"{study}_tertile_effects.tsv", sep="\t")
+    summary = pd.read_csv(results_root / f"{study}_tertile_effects_summary.tsv", sep="\t")
     perts = perts[perts.attr_group == "High"].copy()
     summary = summary[summary.attr_group == "High"].iloc[0]
     perts["perturbation"] = perts.source_perturbation.str.split(".").str[-1]
@@ -303,9 +289,9 @@ def panel_fig4f(results_root: Path, out_dir: Path, study: str = "Martin",
 
 
 def main() -> int:
-    ap = argparse.ArgumentParser(description=__doc__)
+    ap = argparse.ArgumentParser()
     ap.add_argument("--auprc-root", type=Path, required=True,
-                    help="P2_A2_complete_assumption directory (output/ and A3/)")
+                    help="Enhancer-benchmark directory containing output/ and paired_comparison/")
     ap.add_argument("--martin-tertile", type=Path, required=True,
                     help="tertile_panels/Martin_tertile directory")
     ap.add_argument("--norman-tertile", type=Path, required=True,
@@ -330,17 +316,16 @@ def main() -> int:
     if "fig4f" in args.panels:
         panel_fig4f(args.martin_tertile, figure_out)
     if "figS9b" in args.panels:
-        # Fig. S9b is the Norman version of Fig. 4f; its box in the hand-adjusted
-        # figure is larger, so it is drawn at that size rather than rescaled.
+        # Fig. S9b uses its publication dimensions rather than post-render scaling.
         panel_fig4f(args.norman_tertile, figure_out, study="Norman", canvas=(71.5, 49.2))
 
     provenance(out, args, [
         args.auprc_root / "output/auprc_per_perturbation.tsv",
-        args.auprc_root / "A3/paired_auprc_summary.tsv",
-        args.martin_tertile / "A5_Martin_tertile_effects.tsv",
-        args.martin_tertile / "A5_Martin_tertile_effects_summary.tsv",
-        args.norman_tertile / "A5_Norman_tertile_effects.tsv",
-        args.norman_tertile / "A5_Norman_tertile_effects_summary.tsv",
+        args.auprc_root / "paired_comparison/paired_auprc_summary.tsv",
+        args.martin_tertile / "Martin_tertile_effects.tsv",
+        args.martin_tertile / "Martin_tertile_effects_summary.tsv",
+        args.norman_tertile / "Norman_tertile_effects.tsv",
+        args.norman_tertile / "Norman_tertile_effects_summary.tsv",
     ])
     return 0
 

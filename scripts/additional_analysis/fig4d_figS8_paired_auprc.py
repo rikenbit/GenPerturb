@@ -1,5 +1,4 @@
 #!/usr/bin/env python
-"""A3 / R1 M4; R2 M5: joint-method paired perturbation bootstrap."""
 import argparse
 import numpy as np
 import pandas as pd
@@ -30,7 +29,7 @@ def summarize(df, reference, repeats, seed):
 
 
 def main():
-    p = argparse.ArgumentParser(description=__doc__)
+    p = argparse.ArgumentParser()
     p.add_argument("--input", required=True)
     p.add_argument("--out", required=True)
     p.add_argument("--reference", default="GenPerturb")

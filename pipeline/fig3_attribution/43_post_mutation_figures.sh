@@ -1,6 +1,6 @@
 #!/bin/bash
 # ==============================================================================
-# Fig 3f / 43: Local post-processing after 42_run_mutation_array.sh
+# Fig. 4f / 43: Local post-processing after 42_run_mutation_array.sh
 # ==============================================================================
 
 set -euo pipefail

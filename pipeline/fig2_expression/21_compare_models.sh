@@ -1,6 +1,6 @@
 #!/bin/bash
 # ==============================================================================
-# Fig 2 / S1-S7: Compare models across studies 
+# Fig. 2 / S1-S6: Compare models across studies
 # ==============================================================================
 
 set -euo pipefail

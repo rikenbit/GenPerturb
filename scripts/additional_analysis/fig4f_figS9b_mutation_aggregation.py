@@ -1,5 +1,4 @@
 #!/usr/bin/env python
-"""A5 / R1 M5,m7–8; R2 M7,m2; R3 2–3: matched mutation effects."""
 import argparse
 from pathlib import Path
 import h5py
@@ -64,20 +63,20 @@ def summarise(values, seed, bootstrap):
 
 
 def main():
-    p = argparse.ArgumentParser(description=__doc__)
+    p = argparse.ArgumentParser()
     p.add_argument("--data-dir", required=True)
     p.add_argument("--tss-bed", required=True, help="Exact inference BED, used to detect out-of-window WT placeholders")
     p.add_argument("--context-length", required=True, type=int)
     p.add_argument("--low-cutoff", required=True, type=float)
     p.add_argument("--high-cutoff", required=True, type=float)
-    p.add_argument("--cutoff-source", required=True, help="Record of original attribution tertile boundaries")
+    p.add_argument("--cutoff-source", required=True, help="Description of the fixed attribution tertile boundaries")
     p.add_argument("--expected-seeds", type=int, default=5)
     p.add_argument("--seed", type=int, default=42)
     p.add_argument("--bootstrap", type=int, default=10000)
     p.add_argument("--out", required=True)
     a = p.parse_args()
     if not np.isfinite([a.low_cutoff, a.high_cutoff]).all() or a.low_cutoff >= a.high_cutoff:
-        p.error("Finite ordered original cutoffs are required")
+        p.error("Finite ordered cutoffs are required")
     if a.context_length <= 0 or a.context_length % 2 or a.expected_seeds < 1:
         p.error("Invalid context length or seed count")
     root = Path(a.data_dir)
@@ -91,7 +90,8 @@ def main():
                       names=["chr", "start", "end", "gene", "score", "strand", "split"])
     if bed.gene.isna().any():
         raise ValueError("Missing inference BED gene identifiers")
-    # Reproduce 52b: first entry matching any target chromosome, else first entry.
+    # Match mutation inference locus selection: prefer the first entry on a
+    # target chromosome and otherwise use the first entry for the gene.
     chosen = []
     for gene, gt in targets.groupby("gene", sort=True):
         entries = bed[bed.gene == gene]
@@ -101,8 +101,8 @@ def main():
         chosen.append((matching if len(matching) else entries).iloc[0])
     duplicate_bed = bed[bed.duplicated("gene", keep=False)].copy()
     bed = pd.DataFrame(chosen, columns=bed.columns)
-    # Reproduce 52b get_gene_info and HALF_CONTEXT exactly, including its
-    # BED-start convention on the minus strand (not 43's distance convention).
+    # Match mutation inference coordinates by using the BED start as the TSS on
+    # both strands and applying the same half-context window.
     bed["tss"] = bed.start
     bed = bed.set_index("gene")
     out = output_dir(a.out)

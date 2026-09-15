@@ -43,7 +43,7 @@ DATA_DIR.mkdir(parents=True, exist_ok=True)
 
 COMPOUNDS = [
     ("Jialong.Curcumin_CD3",         "Curcumin",        "NRF2 natural positive control"),
-    ("Jialong.Rutaecarpine_CD3",     "Rutaecarpine",    "NRF2 natural (test/53)"),
+    ("Jialong.Rutaecarpine_CD3",     "Rutaecarpine",    "NRF2-related natural product"),
     ("Jialong.Sophoricoside_CD3",    "Sophoricoside",    "candidate: NF-κB inhibitor"),
     ("Jialong.Isoalantolactone_CD3", "Isoalantolactone", "candidate: NF-κB inhibitor"),
 ]

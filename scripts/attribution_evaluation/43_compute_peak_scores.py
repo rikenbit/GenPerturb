@@ -279,7 +279,7 @@ def main():
     ap.add_argument('--attribution_filename_suffix', default='',
                     help="Use {pert}{suffix}_attribution_fc.bedgraph or {pert}{suffix}_raw_attribution.h5 (e.g. '_gtgenes')")
     ap.add_argument('--attribution_score_source', choices=['bedgraph', 'raw_h5'], default='bedgraph',
-                    help="Compute attr_top10_score from 128-bp BedGraph bins (legacy default) or raw per-base ixg_fc")
+                    help="Compute attr_top10_score from 128-bp BedGraph bins or raw per-base ixg_fc")
 
     args = ap.parse_args()
 

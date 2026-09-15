@@ -129,10 +129,7 @@ class GenPerturbTorch(nn.Module):
 
         if cal_loss:
             loss = self.mse_loss(out, xs[1])
-            #loss = self.weighted_mse_loss(out, xs[1])
-            #loss = self.mse_loss_with_negative(out, xs[1])
             return loss
 
         else:
             return out
-

@@ -1,6 +1,6 @@
 #!/bin/bash
 # ==============================================================================
-# Fig 3e / S10a: root-output TF-MoDISco for the paper motif-discovery route
+# Fig. 4e / S9a: root-output TF-MoDISco for the motif-discovery route
 # ==============================================================================
 
 set -euo pipefail

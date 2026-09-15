@@ -1,13 +1,13 @@
 #!/bin/bash
 #
-# SLURM array worker for paper Fig. 3 root-output Captum routes.
+# SLURM array worker for Fig. 4 root-output Captum routes.
 #
 # Supported task routes:
 #   fig3d_gtgenes  -> 10_captum.py union_genes ... --output-suffix _gtgenes
 #   fig3e_top200   -> 10_captum.py variable_genes condition
 #
 # This worker writes raw H5 files under attribution/{study}__{suffix}/... .
-# It does not use attribution_analysis/ and should not be used for Fig. 4.
+# It does not use attribution_analysis/, which supplies the Fig. 5 analyses.
 
 #SBATCH --job-name=fig3_captum
 #SBATCH --partition=gpu
@@ -62,7 +62,7 @@ else
 fi
 
 echo "========================================"
-echo "Fig. 3 Captum task ${TASK_ID}"
+echo "Fig. 4 Captum task ${TASK_ID}"
 echo "Route:        ${ROUTE}"
 echo "Study:        ${STUDY_FULL}"
 echo "Model:        ${MODEL}"
@@ -78,7 +78,7 @@ if [ "$ROUTE" == "fig3d_gtgenes" ]; then
     SAFE_PERT="${PERT//\//_}"
     RAW_H5="attribution/${STUDY_FULL}/${SAFE_PERT}/${SAFE_PERT}${OUTPUT_SUFFIX}_raw_attribution.h5"
 
-    echo "Fig. 3d enhancer AUPRC route: Martin Table S3 genes"
+    echo "Fig. 4d enhancer AUPRC route: Martin Table S3 genes"
     echo "Pert:         ${PERT}"
     echo "Target:       ${TARGET}"
     echo "Gene list:    ${GENE_LIST}"
@@ -102,7 +102,7 @@ elif [ "$ROUTE" == "fig3e_top200" ]; then
     SAFE_PERT="${PERT//\//_}"
     RAW_H5="attribution/${STUDY_FULL}/${SAFE_PERT}/${SAFE_PERT}_raw_attribution.h5"
 
-    echo "Fig. 3e motif route: top-200 variable genes"
+    echo "Fig. 4e motif route: top-200 variable genes"
     echo "Pert:         ${PERT}"
     echo "Mode/target:  ${MODE}/${TARGET}"
     echo "Raw output:   ${RAW_H5}"

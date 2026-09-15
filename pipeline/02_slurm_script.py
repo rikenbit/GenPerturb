@@ -2,7 +2,6 @@ import pandas as pd
 import numpy as np
 from genperturb.model._genperturb import GenPerturb
 from genperturb.evaluation._model_stats import ModelStats
-#from genperturb.evaluation._model_stats_tpm2fc import ModelStatsFC
 import subprocess
 import sys
 import os
@@ -37,12 +36,6 @@ def override_epoch(default_epoch):
         return default_epoch
     return int(epoch_override)
 
-#study_name = "NormanWeissman2019_filtered_mixscape_exnp_train"
-#plan = "transfer"
-#pretrained_model = "enformer"
-#pretrained_model = "alphagenome"
-
-
 df    = pd.read_csv(f'data/{study_name}.tsv', sep="\t", index_col=[0])
 bed   = f'fasta/{study_name}.bed'
 fasta = f'fasta/GRCh38.p14.genome.fa'
@@ -70,7 +63,6 @@ elif pretrained_model == "simplecnn":
     context_length = 40001
     hdf5 = None
     emb_method = 'tss'
-    #df = pd.read_csv(f'data/{study_name}_nonperturb.tsv', sep="\t", index_col=[0])
 
 
 def cal_model_stats(study, df, pred, pretrained_model, load_stats=False):
@@ -78,18 +70,11 @@ def cal_model_stats(study, df, pred, pretrained_model, load_stats=False):
     modelstats.main(load_stats=load_stats)
 
 training = True
-#training = False
 
 if plan == "transfer":
     epoch = override_epoch(100)
     batch = 256
     study = with_suffix_extra(f'{study_name}__{pretrained_model}_transfer_epoch{epoch}_batch{batch}_adamw5e3')
-    #study = f'{study_name}__{pretrained_model}_transfer_epoch{epoch}_batch{batch}_adamw5e3_nonperturb'
-    #study = f'{study_name}__{pretrained_model}_transfer_epoch{epoch}_batch{batch}_adamw5e3_moe_onlydna_2'
-    #study = f'{study_name}__{pretrained_model}_transfer_epoch{epoch}_batch{batch}_adamw5e3_moe_split_se16k2_1'
-    #study = f'{study_name}__{pretrained_model}_transfer_epoch{epoch}_batch{batch}_adamw5e3_norm_quality_based_routing'
-    #study = f'{study_name}__{pretrained_model}_transfer_epoch{epoch}_batch{batch}_adamw5e3_negcorloss_noshuffle'
-    #study = f'{study_name}__{pretrained_model}_transfer_epoch{epoch}_batch{batch}_adamw5e3_masked'
     if training:
         model = GenPerturb(df, hdf5=hdf5, context_length=context_length, pretrained=pretrained_model, training_method=plan, study=study, emb_method=emb_method)
         model.train(max_epochs=epoch, batch_size=batch, use_device="gpu", gpus=1)
@@ -100,7 +85,6 @@ if plan == "transfer":
         cal_model_stats(study, df, pred, pretrained_model, load_stats=False)
     else:
         pred = np.load(f"prediction/{study}/prediction.npy")
-        #cal_model_stats(study, df, pred, pretrained_model, load_stats=True)
         cal_model_stats(study, df, pred, pretrained_model, load_stats=False)
 
 elif plan in ["finetuning", "lora"]:
@@ -117,9 +101,7 @@ elif plan in ["finetuning", "lora"]:
         else:
             epoch = override_epoch(150)
             batch = 2
-            #study = f'{study_name}__{pretrained_model}_finetuning_epoch{epoch}_batch{batch}_adamw5e3'
             study = with_suffix_extra(f'{study_name}__{pretrained_model}_finetuning_epoch{epoch}_batch{batch}_adamw5e3_full')
-            #study = f'{study_name}__{pretrained_model}_finetuning_epoch{epoch}_batch{batch}_adamw5e3_plr1e10'
             model = GenPerturb(df, bed=bed, fasta=fasta, context_length=context_length,
                 pretrained=pretrained_model, training_method=plan, target_length=target_length, study=study, emb_method=emb_method)
             model.train(max_epochs=epoch, batch_size=batch, use_device="gpu", gpus=1, accumulate=256//batch)

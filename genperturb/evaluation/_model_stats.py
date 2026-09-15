@@ -1,5 +1,3 @@
-#For checking the statistics of individual trained models. Not used in the manuscript.
-
 import os
 import pandas as pd
 import numpy as np
@@ -296,6 +294,5 @@ class ModelStats:
         # (set in genperturb/preprocess/13_prepare_pseudobulk.py).
         ctrl = self.df2.columns[0]
         self.loop_plot_scatter_pert(self.cor_acgenes.query('training == "test" & Gene == @ctrl').loc[:,["Gene","Correlation"]], prefix="")
-
 
 

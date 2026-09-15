@@ -84,10 +84,10 @@ def main():
     collapsed["analysis_unit"] = "unique_compound_median_across_conditions_sensitivity"
     collapsed.to_csv(args.out / "unique_compound_sensitivity.tsv", sep="\t", index=False)
     subprocess.run([sys.executable, str(ROOT / "scripts/additional_analysis/fig6a_compound_rank_test.py"),
-                    "--input", str(args.out / "unique_compound_sensitivity.tsv"), "--group-history", "unknown",
+                    "--input", str(args.out / "unique_compound_sensitivity.tsv"),
                     "--out", str(args.out / "compound_sensitivity")], check=True)
     subprocess.run([sys.executable, str(ROOT / "scripts/additional_analysis/fig6a_compound_rank_test.py"),
-                    "--input", str(args.out / "compound_groups.tsv"), "--group-history", "unknown",
+                    "--input", str(args.out / "compound_groups.tsv"),
                     "--out", str(args.out / "tie_aware")], check=True)
 
     nondetect = vals <= 1e-12

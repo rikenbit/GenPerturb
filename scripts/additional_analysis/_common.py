@@ -1,4 +1,3 @@
-"""Small, portable utilities for revision analyses (no project-root assumptions)."""
 import hashlib
 import json
 import sys

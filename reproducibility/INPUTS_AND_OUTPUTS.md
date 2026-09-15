@@ -122,7 +122,7 @@ cre_gtgenes/{MARTIN_FULL}/scored_peaks/scored_peaks_{pert}.tsv
 ```
 
 Use `scripts/additional_analysis/auprc_manifest.tsv` for the 12-perturbation input list.
-Its columns are `perturbation, cre_dir, raw_h5, atac_bed, original_union`;
+Its columns are `perturbation, cre_dir, raw_h5, atac_bed, pipeline_union`;
 paths are relative to the manifest directory. Each `cre_dir` contains the
 three annotation BEDs above, with empty files for annotations without candidates.
 
@@ -268,15 +268,15 @@ directory, so pass a new root for each run.
 | Step | Output directory in the runbook | Main outputs |
 |---|---|---|
 | 70 | `results/expression_evaluation/run_XX/output/` | `gene_correlations.tsv`, `condition_correlations.tsv`, `expression_quintile_summary.tsv`, `backbone_comparison_summary.tsv` |
-| 71 | `results/enhancer_benchmark/` | `output/auprc_per_perturbation.tsv`, `A3/paired_auprc_summary.tsv` |
-| 72 | `results/mutation_effects/P2_{Martin,Norman}_matched/output_v2/` | `mutation_pairs.tsv`, `mutation_perturbation_effects.tsv`, `mutation_summary.tsv`, `mutation_tertile_summary.tsv` |
+| 71 | `results/enhancer_benchmark/` | `output/auprc_per_perturbation.tsv`, `paired_comparison/paired_auprc_summary.tsv` |
+| 72 | `results/mutation_effects/{Martin,Norman}_matched/` | `mutation_pairs.tsv`, `mutation_perturbation_effects.tsv`, `mutation_summary.tsv`, `mutation_tertile_summary.tsv` |
 | 73 | `results/norman_partitions/` | `adata_real.h5ad`, `adata_pred.h5ad`, `real_membership.tsv`, `pred_membership.tsv`, `partition_metrics.json` |
 | 74 | `results/nr3c1_{condition,compound}_test/` | `nr3c1_tie_aware_tests.tsv`, `compound_group_audit.tsv` |
-| 75 | `results/mutation_effects/tertile_panels/{Martin,Norman}_tertile/` | `A5_{study}_tertile_effects.tsv`, `A5_{study}_tertile_effects_summary.tsv`, Fig. 4f and Fig. S9b panel SVG, `run.json` |
-| 78 | `results/print_panels/` | Fig. 4d, Fig. 4f, Fig. S8a/b and Fig. S9b redrawn at final printed size |
+| 75 | `results/mutation_effects/tertile_panels/{Martin,Norman}_tertile/` | `{study}_tertile_effects.tsv`, `{study}_tertile_effects_summary.tsv`, Fig. 4f and Fig. S9b panel SVG, `run.json` |
+| 78 | `results/print_panels/` | Fig. 4d, Fig. 4f, Fig. S8a/b and Fig. S9b drawn at publication size |
 
 Step 75 consumes `mutation_pairs.tsv` from step 72 and writes the
-`A5_*_tertile_effects*.tsv` tables that step 78 reads, so run 72 → 75 → 78.
+`*_tertile_effects*.tsv` tables that step 78 reads, so run 72 → 75 → 78.
 Step 75 also computes the perturbation-bootstrap intervals and sign tests
 quoted in the Fig. 4f and Fig. S9b legends, using bootstrap seed 42 and 10,000
 resamples of perturbations. Step 78 is the plotting code for the Fig. 4d and

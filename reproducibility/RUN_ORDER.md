@@ -118,8 +118,7 @@ bash pipeline/fig3_attribution/50_attribution_axis_allgenes.sh
 ```
 
 It writes the top-k overlap-enrichment sweep and the fold-change-binned
-gene-wise correlation panels. The launcher label predates the revised figure
-numbering; it produces Fig. S7.
+gene-wise correlation panels for Fig. S7.
 
 Prepare enhancer-scoring inputs from the `_gtgenes` raw H5 files:
 
@@ -138,7 +137,7 @@ MISSING_ATTRIBUTION_POLICY=zero \
 
 It generates `results/enhancer_benchmark/output/auprc_per_perturbation.tsv`,
 per-perturbation `*_independent_scored_candidates.tsv` files and
-`results/enhancer_benchmark/A3/paired_auprc_summary.tsv`.
+`results/enhancer_benchmark/paired_comparison/paired_auprc_summary.tsv`.
 Use a new `OUTDIR` for each run. The fixed scoring parameters are listed in
 `INPUTS_AND_OUTPUTS.md`.
 
@@ -206,7 +205,7 @@ OUTROOT=results/mutation_effects \
   bash pipeline/additional_analysis/72_mutation_aggregation.sh Norman_matched
 ```
 
-For each study, `results/mutation_effects/P2_{Martin,Norman}_matched/output_v2/`
+For each study, `results/mutation_effects/{Martin,Norman}_matched/`
 contains `mutation_pairs.tsv`, `mutation_gene_effects.tsv`,
 `mutation_perturbation_effects.tsv`, `mutation_summary.tsv`,
 `mutation_tertile_perturbation_effects.tsv` and `mutation_tertile_summary.tsv`.
@@ -229,7 +228,7 @@ with the panel source-data tables, `run.json` and the panel SVG for each study,
 using bootstrap seed 42 and 10,000 perturbation resamples.
 
 `pipeline/additional_analysis/78_print_size_panels.sh` draws Fig. 4d, Fig. 4f,
-Fig. S8a/b and Fig. S9b at their final printed size, and is the plotting code
+Fig. S8a/b and Fig. S9b at their publication size, and is the plotting code
 for the Fig. 4d and Fig. S8a/b panels. It reads the step-71 AUPRC root and this
 `tertile_panels/` directory, so run 71 and 75 first. Its defaults assume both
 sit under one results root; with the split roots used above, call the figure

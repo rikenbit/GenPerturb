@@ -1,6 +1,6 @@
 #!/bin/bash
 # ==============================================================================
-# Fig 3f / 40: Prepare seqlet metadata for motif mutation analyses
+# Fig. 4f / 40: Prepare seqlet metadata for motif mutation analyses
 # ==============================================================================
 
 set -euo pipefail

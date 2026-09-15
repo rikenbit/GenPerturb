@@ -1,19 +1,4 @@
 #!/usr/bin/env python3
-"""
-Fig. 4 / Fig. S12 attribution_analysis GimmeMotifs matrix aggregator.
-
-This script is for the resume-safe attribution_analysis route used by the
-lineage/master-regulator analyses, not for the paper Fig. 3e motif-recovery
-panel. It converts per-perturbation
-`attribution_analysis/gimme_results/{study}/{pert}/gimme.roc.report.txt` files
-into `gimme_motif_pvalue_matrix.tsv`, which can be used by Fig. S12
-`32_master_regulator_upset.py` for the GenPerturb(GimmeMotifs) evidence layer.
-
-Do not confuse this with `scripts/attribution_evaluation/32_summary_gimmemotifs.py`
-or `36_summary_combined_motif.py`, which generate the adopted Fig. 3e / Fig. S10a
-paper motif summaries under `figures/{study}/gimmemotifs` and
-`figures/{study}/combined_motif`.
-"""
 import os
 import sys
 import argparse
@@ -94,7 +79,7 @@ def main():
     parser = argparse.ArgumentParser(
         description=(
             "Aggregate attribution_analysis GimmeMotifs results into the "
-            "Fig. 4/Fig. S12 motif x perturbation matrix"
+            "Fig. 5/Fig. S11 motif x perturbation matrix"
         )
     )
     parser.add_argument("--study", required=True, help="Study name")

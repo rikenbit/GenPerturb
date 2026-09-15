@@ -1,6 +1,6 @@
 #!/bin/bash
 # ==============================================================================
-# Fig 3: root-output peak call after paper Captum raw H5 generation
+# Fig. 4: root-output peak call after Captum raw H5 generation
 # ==============================================================================
 
 set -euo pipefail

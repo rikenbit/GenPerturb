@@ -1,6 +1,6 @@
 #!/bin/bash
 # ==============================================================================
-# Fig 4 / 31: In-silico seqlet mutation per marker gene (S11)
+# Fig. 5 / 31: In-silico seqlet mutation per marker gene (S10)
 # ==============================================================================
 
 set -euo pipefail

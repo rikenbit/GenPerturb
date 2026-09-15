@@ -68,8 +68,6 @@ class JointDataset(torch.utils.data.Dataset):
             return_seq_indices = self.alphagenome_input,
             return_sequence = self.return_sequence,
             filter_df_fn   =  filter_df_fn,
-            #shift_augs = (-2, 2),
-            #rc_aug = True,
             context_length = context_length
         )
         return ds

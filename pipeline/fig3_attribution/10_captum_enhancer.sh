@@ -1,6 +1,6 @@
 #!/bin/bash
 # ==============================================================================
-# Fig 3d / S9: Captum for Martin enhancer AUPRC gtgenes route
+# Fig. 4d / S8: Captum for the Martin enhancer benchmark
 # ==============================================================================
 
 set -euo pipefail
@@ -44,7 +44,7 @@ TASKS_FILE="${TASKS_DIR}/tasks_${STUDY_FULL}.txt"
 DONE_DIR="${TASKS_DIR}/done/${STUDY_FULL}"
 mkdir -p "$TASKS_DIR" "$DONE_DIR"
 
-echo "Fig 3d / S9 Captum gtgenes — study=${STUDY_FULL} target=${TARGET}"
+echo "Fig. 4d / S8 Captum gtgenes — study=${STUDY_FULL} target=${TARGET}"
 
 # --- 1. generate task list ---------------------------------------------------
 pipeline_activate_conda alphagenome
@@ -64,7 +64,7 @@ done < "$TASKS_FILE"
 echo "Tasks: $(wc -l < "$TASKS_FILE")  To submit: ${#PENDING_IDS[@]}"
 
 if [ "${#PENDING_IDS[@]}" -eq 0 ]; then
-    echo "All Fig 3d / S9 gtgenes Captum raw H5 files already exist; no SLURM jobs submitted."
+    echo "All Fig. 4d / S8 gtgenes Captum raw H5 files already exist; no SLURM jobs submitted."
     echo "Peak calling is not run automatically in this no-pending case to avoid overwriting existing outputs."
     exit 0
 fi
@@ -86,7 +86,7 @@ export PROJECT_ROOT TASKS_FILE DONE_DIR CONDA_SH
 ARRAY_JOBID=$(sbatch "${SBATCH_ARGS[@]}" \
     --export=ALL,PROJECT_ROOT,TASKS_FILE,DONE_DIR,CONDA_SH \
     scripts/attribution_evaluation/40_fig3_captum_array_worker.sh)
-echo "Submitted Fig 3d gtgenes Captum array: $ARRAY_JOBID"
+echo "Submitted Fig. 4d gtgenes Captum array: $ARRAY_JOBID"
 
 # --- 3. submit dependent peak-call job ---------------------------------------
 PEAK_JOBID=$(sbatch --parsable \

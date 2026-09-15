@@ -8,14 +8,14 @@ set -euo pipefail
 source "$(dirname "${BASH_SOURCE[0]}")/../_common.sh"
 cd "${PROJECT_ROOT}"
 
-OUTDIR="${OUTDIR:-revision_analysis/results/A1}"
+OUTDIR="${OUTDIR:-results/expression_evaluation}"
 INDICES="${INDICES:-0-55}"
 
 sbatch --parsable \
-    -J "revision_70_expression" \
+    -J "step70_expression" \
     -a "${INDICES}" \
-    -o "log/revision_70_expression_%a.out" \
-    -e "log/revision_70_expression_%a.err" \
+    -o "log/step70_expression_%a.out" \
+    -e "log/step70_expression_%a.err" \
     --partition="${PARTITION_CPU}" --mem="${MEM_HEAVY}" --time=24:00:00 \
     <<SCRIPT
 #!/bin/bash

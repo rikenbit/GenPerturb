@@ -10,7 +10,7 @@ source "$(dirname "${BASH_SOURCE[0]}")/../_common.sh"
 cd "${PROJECT_ROOT}"
 
 STUDY_KEY="${1:-Martin_matched}"
-OUTROOT="${OUTROOT:-revision_analysis/results}"
+OUTROOT="${OUTROOT:-results/mutation_effects}"
 
 case "$STUDY_KEY" in
     Martin_matched)
@@ -29,7 +29,7 @@ case "$STUDY_KEY" in
         ;;
 esac
 
-pipeline_start_log "revision_72_mutation_${STUDY_KEY}"
+pipeline_start_log "step72_mutation_${STUDY_KEY}"
 pipeline_activate_conda singlecell
 export OPENBLAS_NUM_THREADS=1 OMP_NUM_THREADS=1 MKL_NUM_THREADS=1
 
@@ -38,5 +38,5 @@ python scripts/additional_analysis/fig4f_figS9b_mutation_aggregation.py \
     --tss-bed "${TSS_BED}" \
     --context-length 1048576 \
     --low-cutoff "${LOW}" --high-cutoff "${HIGH}" \
-    --cutoff-source 'adopted original attribution tertile record' \
-    --out "${OUTROOT}/P2_${STUDY_KEY}/output_v2"
+    --cutoff-source 'fixed study-specific attribution tertile boundaries' \
+    --out "${OUTROOT}/${STUDY_KEY}"

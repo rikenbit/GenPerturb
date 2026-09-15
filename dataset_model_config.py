@@ -93,8 +93,8 @@ all_cmaps = [
     "Greys_r",     # baseline_control
     "Greys_r",     # baseline_peturbmean
     "Greys_r",     # simplecnn
-    # The entries below are not aligned with all_pretrained_models;
-    # they were originally study-related. Kept for backward compat.
+    # Additional entries support scripts that use study-oriented indices and
+    # therefore do not align with all_pretrained_models.
     "Reds_r",
     "Oranges_r",
     "Oranges_r",
@@ -120,7 +120,7 @@ model_fixed_suffix = {
     "simplecnn": "baseline_epoch150_batch2_adamw5e3",
 }
 
-# Model comparison colors. Refined editorial palette — each model in its own family:
+# Model comparison colors, with one palette family per model family:
 # alphagenome -> rose-wine, borzoi -> sage-forest, enformer -> steel blue, baselines -> gray.
 _model_color_map = {
     "alphagenome": "#BC5765",

@@ -41,21 +41,6 @@ for pretrained_model in pretrained_models_raw:
 cor_acpertss_all = pd.concat(cor_acpertss_all, ignore_index=True)
 cor_acgeness_all = pd.concat(cor_acgeness_all, ignore_index=True)
 
-# Original short names (e.g. "AlphaGenome", "Borzoi", ...) — used for the legacy figures.
-_short_name_replace = {
-    "enformer": "Enformer",
-    "borzoi": "Borzoi",
-    "alphagenome": "AlphaGenome",
-    "alphagenome_fold_0": "AlphaGenome fold0",
-    "alphagenome_fold_1": "AlphaGenome fold1",
-    "alphagenome_fold_2": "AlphaGenome fold2",
-    "alphagenome_fold_3": "AlphaGenome fold3",
-    "enformerborzoi524k": "Enformer Borzoi 524k",
-    "baseline_control": "Baseline Control",
-    "baseline_peturbmean": "Baseline Perturbation Mean",
-    "simplecnn": "Simple CNN",
-}
-
 # --- Plot per dataset ---
 outdir = "across_study/compare_models/per_dataset"
 os.makedirs(outdir, exist_ok=True)
@@ -85,9 +70,8 @@ plt.rcParams.update({
 def _plot_per_dataset(name_map, file_suffix, figsize):
     """Render the per-dataset figure with a given model-name mapping.
 
-    name_map: dict mapping raw model id -> display name (e.g. "alphagenome" -> "AlphaGenome"
-              for the legacy figure, or -> "GenPerturb (AlphaGenome transfer)" for the new one).
-    file_suffix: appended to the saved filename (e.g. "" for legacy, "_genperturb" for new).
+    name_map: dict mapping raw model identifiers to display names.
+    file_suffix: suffix appended to the saved filename.
     figsize: matplotlib figsize tuple in inches.
     """
     cor_perts = cor_acpertss_all.copy()
@@ -178,13 +162,6 @@ def _plot_per_dataset(name_map, file_suffix, figsize):
         plt.close()
 
 
-# Legacy figure (short names like "AlphaGenome"): smaller / original layout.
-_plot_per_dataset(
-    name_map=_short_name_replace,
-    file_suffix="",
-    figsize=(17 / 2.54, 7 / 2.54),
-)
-# New figure with GenPerturb-prefixed names: needs more room for the longer labels.
 _plot_per_dataset(
     name_map=name_replace,
     file_suffix="_genperturb",

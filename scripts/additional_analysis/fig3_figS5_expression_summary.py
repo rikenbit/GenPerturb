@@ -1,5 +1,4 @@
 #!/usr/bin/env python
-"""A1 / R1 M2–3, m8–9; R2 M2–3: summaries of saved expression predictions."""
 import argparse
 from pathlib import Path
 
@@ -19,7 +18,7 @@ def row_correlation(x, y):
 
 
 def main():
-    p = argparse.ArgumentParser(description=__doc__)
+    p = argparse.ArgumentParser()
     p.add_argument("--manifest", required=True, help="TSV; paths relative to this manifest")
     p.add_argument("--out", required=True)
     p.add_argument("--seed", type=int, default=42)
@@ -59,7 +58,7 @@ def main():
         if pred.shape != x.shape:
             raise ValueError(f"Prediction/observed shape mismatch: {pred.shape} vs {x.shape}")
         if not np.isfinite(x).all():
-            raise ValueError("Nonfinite observed expression prevents original quintile definition")
+            raise ValueError("Nonfinite observed expression prevents expression-quintile definition")
         labels = ["Very Low", "Low", "Medium", "High", "Very High"]
         quintile, edges = pd.qcut(x.mean(axis=1), 5, labels=labels, retbins=True)
         test = obs.training.eq("test").to_numpy()

@@ -1,6 +1,6 @@
 #!/bin/bash
 # ==============================================================================
-# Fig 2 / S1-S7: UMAP / clustering / observed perturbation separation
+# Fig. 2 / S1-S6: UMAP / clustering / observed perturbation separation
 # ==============================================================================
 
 set -euo pipefail

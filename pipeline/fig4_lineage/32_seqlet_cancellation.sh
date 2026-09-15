@@ -1,6 +1,6 @@
 #!/bin/bash
 # ==============================================================================
-# Fig 4 / 32: Seqlet long table + cancellation plots (S11)
+# Fig. 5 / 32: Seqlet long table + mutation-effect plots (S10)
 # ==============================================================================
 
 set -euo pipefail

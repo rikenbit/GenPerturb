@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # ==============================================================================
-# Fig S8 / 50: all-gene attribution-axis controls (Martin)
+# Fig. S7 / 50: all-gene attribution-axis controls (Martin)
 # ==============================================================================
 set -euo pipefail
 

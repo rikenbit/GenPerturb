@@ -1,22 +1,4 @@
 #!/usr/bin/env python3
-"""
-Fig. 4 / Fig. S11 / Fig. S12 attribution_analysis TF-MoDISco matrix aggregator.
-
-This script is for the resume-safe attribution_analysis route used by the
-lineage and master-regulator analyses, not for the paper Fig. 3e motif-recovery
-panel. It converts per-perturbation
-`attribution_analysis/tfmodisco/{study}/{pert}/modisco_result/*_MA_list.txt`
-files into `tfmodisco_motif_matrix_{pos,neg,signed}.tsv`.
-
-The pos/neg matrices are direct inputs to
-`scripts/immune_differentiation/11_signature_axis_plots.py` (Fig. 4c / Fig. S11b)
-and `scripts/immune_differentiation/32_master_regulator_upset.py` (Fig. S12).
-
-Do not confuse this with `scripts/attribution_evaluation/34_summary_tfmodisco.py`
-or `36_summary_combined_motif.py`, which generate the adopted Fig. 3e / Fig. S10a
-paper motif summaries under `figures/{study}/tfmodisco` and
-`figures/{study}/combined_motif`.
-"""
 import os
 import sys
 import argparse
@@ -160,7 +142,7 @@ def main():
     parser = argparse.ArgumentParser(
         description=(
             "Aggregate attribution_analysis TF-MoDISco results into the "
-            "Fig. 4/Fig. S11/Fig. S12 motif x perturbation matrices"
+            "Fig. 5/Fig. S10/Fig. S11 motif x perturbation matrices"
         )
     )
     parser.add_argument("--study", required=True, help="Study name")

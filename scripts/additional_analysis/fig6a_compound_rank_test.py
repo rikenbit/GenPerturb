@@ -1,5 +1,4 @@
 #!/usr/bin/env python
-"""A7 / R1 M6,m7–8: tie-aware test of frozen compound groups (no API calls)."""
 import argparse
 import numpy as np
 import pandas as pd
@@ -8,9 +7,8 @@ from _common import read_tsv, unique, save, output_dir, provenance
 
 
 def main():
-    p = argparse.ArgumentParser(description=__doc__)
+    p = argparse.ArgumentParser()
     p.add_argument("--input", required=True, help="Frozen TSV: compound,group,rank,included,exclusion_reason,annotation_evidence")
-    p.add_argument("--group-history", required=True, help="Author record of selection timing or 'unknown'")
     p.add_argument("--out", required=True)
     a = p.parse_args()
     df = read_tsv(a.input, ["compound", "group", "rank", "included", "exclusion_reason", "annotation_evidence"])

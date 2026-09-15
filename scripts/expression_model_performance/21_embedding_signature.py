@@ -259,8 +259,7 @@ for pretrained_model in pretrained_models:
             if not os.path.exists(f"figures/{study}"):
                 continue
             # Skip if already done unless FORCE_REGENERATE is set; that lets
-            # users re-render the embedding figures (e.g. after a style change)
-            # without deleting old outputs by hand.
+            # users re-render the embedding figures when needed.
             if (
                 os.path.exists(f"figures/{study}/embedding")
                 and not os.environ.get("FORCE_REGENERATE")
@@ -293,6 +292,5 @@ for pretrained_model in pretrained_models:
 
             clust_stats_summary = calculate_cluster_stats(adata_pred_all, adata_pred, dataname, study)
             plot_barplot(clust_stats_summary, study)
-
 
 

@@ -174,7 +174,6 @@ class GenPerturb(nn.Module):
             self.trainer = pl.Trainer(
                 max_epochs=self.max_epochs,
                 accumulate_grad_batches=1,
-                #accumulate_grad_batches=64,
                 gradient_clip_val=0.2,
                 callbacks=[checkpoint_callback, early_stop_callback],
                 logger=[csv_logger],
@@ -186,7 +185,6 @@ class GenPerturb(nn.Module):
                     accelerator='gpu',
                     devices=gpus,
                     num_nodes=nnodes,
-                    #strategy=strategy,
                     accumulate_grad_batches=accumulate,
                     precision="bf16-mixed",
                     gradient_clip_val=0.2,

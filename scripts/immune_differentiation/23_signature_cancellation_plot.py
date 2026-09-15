@@ -258,9 +258,9 @@ def plot_per_family(signature: str,
 
     ax.set_xlim(-0.7, len(pert_order) - 0.3)
     ax.set_ylim(*Y_LIMITS[signature])  # clip outliers so bars are readable
-    ax.set_ylabel(f"Δ{signature} signature contribution")
+    ax.set_ylabel("Mutation effect on fitted contrast\nnormalized by signature size (ΔΔpred)")
     ax.set_xlabel(f"Perturbation (sorted by real {signature} score, descending)")
-    ax.set_title(f"{signature} signature — per-family seqlet-mutation cancellation")
+    ax.set_title(f"{signature} marker genes — per-family seqlet-mutation effects")
 
     fam_handles = []
     for fam in families:

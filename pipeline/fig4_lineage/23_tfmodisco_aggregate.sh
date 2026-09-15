@@ -1,6 +1,6 @@
 #!/bin/bash
 # ==============================================================================
-# Fig 4 / 23: Aggregate TF-MoDISco (light CPU)
+# Fig. 5 / 23: Aggregate TF-MoDISco (light CPU)
 # ==============================================================================
 
 set -euo pipefail
@@ -25,5 +25,4 @@ python scripts/attribution_analysis/08b-aggregate_tfmodisco.py \
     --input-base "${INPUT_BASE}" \
     --output-base "${INPUT_BASE}" \
     --qval-threshold "${QVAL_THRESHOLD}"
-
 

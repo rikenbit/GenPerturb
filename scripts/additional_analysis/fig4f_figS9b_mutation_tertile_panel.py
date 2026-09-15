@@ -1,24 +1,4 @@
 #!/usr/bin/env python
-"""Fig. 3f / Fig. S10b panel: paired mutation effects across attribution tertiles.
-
-R1 M5 asked for the instance-level test to be replaced by a gene- or
-perturbation-aggregated comparison while keeping the panel as a descriptive
-association between attribution tertile and mutation magnitude. R2 M7 asked that
-the analysis not be presented as independent validation. This script therefore
-plots the same two-stage aggregation (site -> gene median -> gene-equal mean per
-perturbation) separately in each attribution tertile: the motif magnitude and its
-matched-control magnitude on the left, and the paired difference with a
-perturbation bootstrap interval on the right.
-
-The figure is drawn at its final physical size in the composite (default
-78 x 42 mm), so the composite places it at 1:1 and the requested text size is the
-size that appears in the figure. The default matches the neighbouring panels.
-
-Run:
-    python scripts/additional_analysis/fig4f_figS9b_mutation_tertile_panel.py \
-        --pairs .../P2_Martin_matched/output_v2/mutation_pairs.tsv \
-        --label Martin --out <dir>
-"""
 import argparse
 import importlib.util
 from pathlib import Path
@@ -48,7 +28,7 @@ def mutation_module():
 
 def style(font_pt):
     # Sizes are final sizes: the panel is composed at 1:1, so no down-scaling.
-    # The default matches the neighbouring panels of Fig. 3 and Fig. S10, whose
+    # The default matches the neighbouring panels of Fig. 4 and Fig. S9, whose
     # composed text measures about 3.0-4.3 pt.
     plt.rcParams.update({
         "font.size": font_pt, "axes.labelsize": font_pt, "axes.titlesize": font_pt,
@@ -119,7 +99,7 @@ def draw(pert, summary, tertiles, width_mm, height_mm, font_pt):
 
 
 def main():
-    p = argparse.ArgumentParser(description=__doc__)
+    p = argparse.ArgumentParser()
     p.add_argument("--pairs", required=True, help="mutation_pairs.tsv from fig4f_figS9b_mutation_aggregation.py")
     p.add_argument("--label", required=True, help="Short study label used in output names")
     p.add_argument("--out", required=True, help="Source-data tables and run.json")
@@ -129,7 +109,7 @@ def main():
     p.add_argument("--width-mm", type=float, default=78.0, help="Destination box width in the composite")
     p.add_argument("--height-mm", type=float, default=42.0, help="Destination box height in the composite")
     p.add_argument("--font-pt", type=float, default=4.3,
-                   help="Final composed text size; matches the neighbouring panels of Fig. 3 and S10")
+                   help="Final composed text size; matches the neighbouring panels of Fig. 4 and S9")
     a = p.parse_args()
     module = mutation_module()
     columns = ["gene", "source_perturbation", "attr_group", "paired_complete"] + module.AGGREGATED
@@ -164,7 +144,7 @@ def main():
         figure_out = Path(a.figure_out)
         figure_out.mkdir(parents=True, exist_ok=True)
     fig = draw(pert, summary, module.TERTILES, a.width_mm, a.height_mm, a.font_pt)
-    name = f"A5_{a.label}_tertile_effects"
+    name = f"{a.label}_tertile_effects"
     fig.savefig(figure_out / f"{name}.svg")
     fig.savefig(figure_out / f"{name}.png", dpi=600)
     plt.close(fig)

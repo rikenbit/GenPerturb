@@ -1,6 +1,6 @@
 #!/bin/bash
 # ==============================================================================
-# Fig 4 / 22: TF-MoDISco array (CPU array, study-parameterized)
+# Fig. 5 / 22: TF-MoDISco array (CPU array, study-parameterized)
 # ==============================================================================
 
 set -euo pipefail

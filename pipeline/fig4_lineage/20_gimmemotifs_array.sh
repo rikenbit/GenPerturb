@@ -1,6 +1,6 @@
 #!/bin/bash
 # ==============================================================================
-# Fig 4 / 20: GimmeMotifs array (CPU array, study-parameterized)
+# Fig. 5 / 20: GimmeMotifs array (CPU array, study-parameterized)
 # ==============================================================================
 
 set -euo pipefail

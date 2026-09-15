@@ -18,11 +18,6 @@ else:
 study = f"{study_name}__{study_suffix}"
 QVAL_THR = 0.05
 
-if "--revision-out" in sys.argv:
-    from _revision_motif_export import export_revision
-    export_revision(study_name, study, sys.argv[sys.argv.index("--revision-out") + 1])
-    sys.exit(0)
-
 OUT_DIR = f"figures/{study}/combined_motif"
 os.makedirs(OUT_DIR, exist_ok=True)
 

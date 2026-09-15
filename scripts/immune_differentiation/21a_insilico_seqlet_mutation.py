@@ -57,8 +57,7 @@ GRANULOCYTE_PERTS = [
 
 
 def parse_args():
-    p = argparse.ArgumentParser(description=__doc__,
-                                formatter_class=argparse.RawDescriptionHelpFormatter)
+    p = argparse.ArgumentParser()
     p.add_argument("--gene", type=str, default=None,
                    help="Target gene symbol (one of the 9 marker genes)")
     p.add_argument("--all", action="store_true",

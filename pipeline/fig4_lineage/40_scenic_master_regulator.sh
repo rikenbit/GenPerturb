@@ -1,6 +1,6 @@
 #!/bin/bash
 # ==============================================================================
-# Fig 4 / 40: pySCENIC GRN + master regulator upset (S12)
+# Fig. 5 / 40: pySCENIC GRN + master regulator upset (S11)
 # ==============================================================================
 
 set -euo pipefail

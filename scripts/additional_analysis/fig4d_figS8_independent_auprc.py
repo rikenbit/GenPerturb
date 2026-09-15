@@ -1,5 +1,4 @@
 #!/usr/bin/env python
-"""A2 / R1 M4; R2 M4–5: rebuild candidates from original annotation BEDs."""
 import argparse
 from pathlib import Path
 import sys
@@ -132,8 +131,8 @@ def evaluate(peaks, pert, universe, min_positive):
 
 
 def main():
-    p = argparse.ArgumentParser(description=__doc__)
-    p.add_argument("--manifest", required=True, help="TSV: perturbation, cre_dir, raw_h5, atac_bed; optional original_union")
+    p = argparse.ArgumentParser()
+    p.add_argument("--manifest", required=True, help="TSV: perturbation, cre_dir, raw_h5, atac_bed; optional pipeline_union")
     p.add_argument("--genes", required=True, help="Table S3 xlsx or TSV: perturbation,gene,log2FC")
     p.add_argument("--tss-bed", required=True)
     p.add_argument("--chrom-sizes", required=True)
@@ -166,7 +165,8 @@ def main():
     sizes = pd.read_csv(a.chrom_sizes, sep="\t", header=None, names=["chr", "size"]).set_index("chr")["size"]
     primary = [f"chr{i}" for i in range(1, 23)] + ["chrX", "chrY", "chrM"]
     tss = tss[tss.chr.isin(primary)].copy()
-    # 42's gene_windows and 43's gene_tss dictionaries retain the last locus.
+    # Repeated gene identifiers resolve to the final BED locus, matching the
+    # dictionaries used by candidate generation and peak scoring.
     duplicate_tss = tss[tss.duplicated("gene", keep=False)].copy()
     tss = tss.drop_duplicates("gene", keep="last")
     if not tss.chr.isin(sizes.index).all():
@@ -188,8 +188,8 @@ def main():
             path = cre / f"{prefix}_{pert}.bed"
             inputs.append(path)
             frame = bed(path, gc).merge(base[["gene", "chr", "tss"]], on=["gene", "chr"], validate="many_to_one")
-            # Match 42/_bed_utils: retain intervals overlapping the clipped TSS
-            # window, without changing their annotation boundaries.
+            # Retain intervals overlapping the clipped TSS window without
+            # changing their annotation boundaries.
             win_start = np.maximum(0, frame.tss-a.context_length//2)
             win_end = np.minimum(frame.chr.map(sizes), frame.tss+a.context_length//2)
             sources[method] = frame[(frame.end > win_start) & (frame.start < win_end)].assign(source=method)
@@ -199,12 +199,12 @@ def main():
         promoter["score"], promoter["source"] = 0., "TSS_1kb"
         candidates = merge_intervals_by_gene(pd.concat([*sources.values(), promoter], ignore_index=True))
         universes = {"independent": candidates}
-        if pd.notna(row.get("original_union")):
-            path = resolve(row["original_union"])
+        if pd.notna(row.get("pipeline_union")):
+            path = resolve(row["pipeline_union"])
             inputs.append(path)
-            old = pd.read_csv(path, sep="\t", header=None,
-                              names=["chr", "start", "end", "gene", "sources", "max_score", "old_positive"])
-            universes["original"] = old[old.gene.isin(keep)].drop(columns="old_positive")
+            pipeline = pd.read_csv(path, sep="\t", header=None,
+                                   names=["chr", "start", "end", "gene", "sources", "max_score", "pipeline_positive"])
+            universes["pipeline"] = pipeline[pipeline.gene.isin(keep)].drop(columns="pipeline_positive")
         atac_index = build_atac_index(bed(atac))
         for universe, peaks in universes.items():
             peaks = peaks.merge(base[["gene", "chr", "tss"]], on=["gene", "chr"], validate="many_to_one").reset_index(drop=True)

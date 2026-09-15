@@ -94,21 +94,9 @@ elif [ "$PARAM" == "captum" ]; then
   activate_model_env "${MODEL}"
   print_conda_envs
   if [ "$MODEL" == "enformer" ]; then
-    #srun python scripts/attribution_evaluation/10_captum.py $STUDY $STUDY_SUFFIX across_perturbations top
-    #srun python scripts/attribution_evaluation/10_captum.py $STUDY $STUDY_SUFFIX across_perturbations all
-    #srun python scripts/attribution_evaluation/10_captum.py $STUDY $STUDY_SUFFIX across_perturbations condition
     srun python scripts/attribution_evaluation/10_captum.py $STUDY $STUDY_SUFFIX variable_genes condition
-    #srun python scripts/attribution_evaluation/10_captum.py $STUDY $STUDY_SUFFIX variable_genes all
-    #srun python scripts/attribution_evaluation/10_captum.py $STUDY $STUDY_SUFFIX variable_genes tf
-    #srun python scripts/attribution_evaluation/10_captum.py $STUDY $STUDY_SUFFIX across_genes "test"
   elif [[ "$MODEL" == "borzoi" ]]; then
-    #srun python scripts/attribution_evaluation/10_captum.py $STUDY $STUDY_SUFFIX across_perturbations top
-    #srun python scripts/attribution_evaluation/10_captum.py $STUDY $STUDY_SUFFIX across_perturbations all
-    #srun python scripts/attribution_evaluation/10_captum.py $STUDY $STUDY_SUFFIX across_perturbations condition # fig6, interference
-    #srun python scripts/attribution_evaluation/10_captum.py $STUDY $STUDY_SUFFIX variable_genes condition  # test
-    srun python scripts/attribution_evaluation/10_captum.py $STUDY $STUDY_SUFFIX variable_genes all     # fig5, modisco
-    #srun python scripts/attribution_evaluation/10_captum.py $STUDY $STUDY_SUFFIX variable_genes tf      # test for only TF
-    #srun python scripts/attribution_evaluation/10_captum.py $STUDY $STUDY_SUFFIX across_genes "test" # fig5, peak enrichment
+    srun python scripts/attribution_evaluation/10_captum.py $STUDY $STUDY_SUFFIX variable_genes all
   fi
 
 elif [ "$PARAM" == "captum_single" ]; then
@@ -141,13 +129,9 @@ elif [ "$PARAM" == "captum_peak" ]; then
   MODE="${4:-variable_genes}"                                                                                                             
   activate_model_env "${MODEL}"
   print_conda_envs
-  #python scripts/attribution_evaluation/10a_peak_call.py $STUDY $STUDY_SUFFIX variable_genes                                        
-  #python scripts/attribution_evaluation/10a_peak_call.py $STUDY $STUDY_SUFFIX across_genes                                          
-  #python scripts/attribution_evaluation/10a_peak_call.py $STUDY $STUDY_SUFFIX across_perturbations                                  
   python scripts/attribution_evaluation/10a_peak_call.py "$STUDY" "$STUDY_SUFFIX" "$MODE"
 
 elif [ "$PARAM" == "modisco" ]; then
-  #sleep 24000
   pipeline_activate_conda modisco
   print_conda_envs
   STUDY="${1:?Usage: $0 -p modisco STUDY STUDY_SUFFIX}"

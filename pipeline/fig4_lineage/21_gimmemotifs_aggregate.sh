@@ -1,6 +1,6 @@
 #!/bin/bash
 # ==============================================================================
-# Fig 4 / 21: Aggregate GimmeMotifs (light CPU)
+# Fig. 5 / 21: Aggregate GimmeMotifs (light CPU)
 # ==============================================================================
 
 set -euo pipefail
@@ -22,4 +22,3 @@ python scripts/attribution_analysis/08-aggregate_gimmemotifs.py \
     --study-suffix "${STUDY_SUFFIX}" \
     --input-base "${INPUT_BASE}" \
     --output-base "${INPUT_BASE}"
-

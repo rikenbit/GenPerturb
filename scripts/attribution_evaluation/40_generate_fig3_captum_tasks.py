@@ -1,22 +1,4 @@
 #!/usr/bin/env python3
-"""
-Generate explicit Fig. 3 Captum task lists.
-
-This script intentionally separates the two Fig. 3 Captum inputs that used to
-be easy to confuse:
-
-  fig3d_gtgenes
-    Martin enhancer AUPRC route. Computes attribution for Martin Table S3
-    TF-sensitive genes with `10_captum.py union_genes --output-suffix _gtgenes`.
-
-  fig3e_top200
-    Motif-discovery route. Computes root-output top-200 variable-gene
-    attribution with `10_captum.py variable_genes condition`.
-
-Both routes write to the paper root `attribution/{study}__{suffix}/...`.
-They are distinct from the Fig. 4 `attribution_analysis/` array route.
-"""
-
 from __future__ import annotations
 
 import argparse
@@ -174,7 +156,7 @@ def generate_fig3d_gtgenes(args: argparse.Namespace) -> None:
     summary_path = Path("attribution") / study_full / "_fig3d_gtgenes_captum_summary.tsv"
     pd.DataFrame(summary_rows).to_csv(summary_path, sep="\t", index=False)
 
-    print(f"Generated {len(task_rows)} Fig. 3d gtgenes tasks -> {args.output}")
+    print(f"Generated {len(task_rows)} Fig. 4d gtgenes tasks -> {args.output}")
     print(f"Summary -> {summary_path}")
     print(f"Study: {study_full}")
     print(f"Target: {args.target}; output suffix: {args.output_suffix}")
@@ -201,13 +183,13 @@ def generate_fig3e_top200(args: argparse.Namespace) -> None:
     ]
     write_lines(Path(args.output), task_rows)
 
-    print(f"Generated {len(task_rows)} Fig. 3e top-200 tasks -> {args.output}")
+    print(f"Generated {len(task_rows)} Fig. 4e top-200 tasks -> {args.output}")
     print(f"Study: {args.study}__{suffix}")
     print(f"Mode/target: {args.mode}/{args.target}")
 
 
 def main() -> None:
-    parser = argparse.ArgumentParser(description="Generate Fig. 3 Captum task lists")
+    parser = argparse.ArgumentParser(description="Generate Fig. 4 Captum task lists")
     sub = parser.add_subparsers(dest="route", required=True)
 
     common = argparse.ArgumentParser(add_help=False)

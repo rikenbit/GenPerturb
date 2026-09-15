@@ -1,5 +1,4 @@
 #!/usr/bin/env python
-"""Explicit paper configuration matrix, one saved-prediction summary per array task."""
 import argparse
 import json
 from pathlib import Path

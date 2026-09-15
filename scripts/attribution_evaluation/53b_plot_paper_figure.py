@@ -636,7 +636,7 @@ def main():
     raw_text = grep_gtf_for_genes(cand["gene"].tolist())
     gene_models = parse_gene_models(raw_text)
     print(f"  {len(gene_models)} canonical transcripts loaded "
-          f"(asked for {cand['gene'].nunique()} genes)")
+          f"(expected {cand['gene'].nunique()} genes)")
 
     print("Loading ATAC pseudobulk CPM table...")
     atac_columns, atac_matrix, atac_by_chrom = atac_utils.load_atac_table(ATAC_TSV)

@@ -1,6 +1,6 @@
 #!/bin/bash
 # ==============================================================================
-# Fig 4 / 10: Captum + peak-call array for attribution_analysis route (S11-S12)
+# Fig. 5 / 10: Captum + peak-call array for attribution_analysis route (S10-S11)
 # ==============================================================================
 
 set -euo pipefail
@@ -44,7 +44,7 @@ TASKS_FILE="${TASKS_DIR}/tasks_${STUDY_FULL}.txt"
 DONE_DIR="${TASKS_DIR}/done/${STUDY_FULL}"
 mkdir -p "$TASKS_DIR" "$DONE_DIR"
 
-echo "Fig 4 attribution_analysis Captum + Peak Array — study=${STUDY_FULL} mode=${MODE} target=${TARGET}"
+echo "Fig. 5 attribution_analysis Captum + Peak Array — study=${STUDY_FULL} mode=${MODE} target=${TARGET}"
 
 # --- 1. generate task list ---------------------------------------------------
 pipeline_activate_conda alphagenome
@@ -82,4 +82,4 @@ export CAPTUM_TARGET="$TARGET"
 JOBID=$(sbatch "${SBATCH_ARGS[@]}" \
     --export=ALL,PROJECT_ROOT,TASKS_FILE,DONE_DIR,OUTPUT_BASE,CAPTUM_MODE,CAPTUM_TARGET,CONDA_SH \
     scripts/attribution_analysis/02-array_worker.sh)
-echo "Submitted Fig 4 attribution_analysis job array: $JOBID  (${#PENDING_IDS[@]} tasks)"
+echo "Submitted Fig. 5 attribution_analysis job array: $JOBID  (${#PENDING_IDS[@]} tasks)"
