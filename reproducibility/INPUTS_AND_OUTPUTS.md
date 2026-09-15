@@ -202,6 +202,8 @@ LST1. Representative outputs are:
 figures/{NORMAN_FULL}/gene_signature/{real,pred}_program.svg
 figures/{NORMAN_FULL}/signature_axis/B_obs_vs_pred_erythroid.svg
 figures/{NORMAN_FULL}/signature_axis/C_motif_vs_expr_corr_erythroid.svg
+figures/{NORMAN_FULL}/signature_axis/C_motif_direction_tests_erythroid.tsv
+figures/{NORMAN_FULL}/signature_axis/C_motif_direction_tests_granulocyte.tsv
 figures/{NORMAN_FULL}/seqlet_mutation/seqlet_signature_delta_long.tsv
 figures/{NORMAN_FULL}/seqlet_mutation/cancellation_per_family_Erythroid.svg
 ```

@@ -271,6 +271,14 @@ bash pipeline/fig4_lineage/31_seqlet_mutation_array.sh
 bash pipeline/fig4_lineage/32_seqlet_cancellation.sh
 ```
 
+Step 30 tests the positive and negative motif patterns separately, retains the
+direction with the larger absolute correlation, applies a within-motif
+selection adjustment (`min(1, k p)`, where `k` is the number of eligible
+directions), and then applies Benjamini–Hochberg correction across unique
+motifs. The per-motif inputs to this decision are written to
+`C_motif_direction_tests_erythroid.tsv` and
+`C_motif_direction_tests_granulocyte.tsv`.
+
 Step 73 recomputes observed and fitted partitions using the same held-out loci.
 Outputs under `results/norman_partitions/` include `adata_real.h5ad`,
 `adata_pred.h5ad`, `real_membership.tsv`, `pred_membership.tsv` and

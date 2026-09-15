@@ -221,6 +221,11 @@ def compute_signature_correlations(
         direction, r_motif, p_motif, nonzero = max(
             candidates, key=lambda x: abs(x[1]),
         )
+        # Selecting the larger absolute correlation from the eligible positive-
+        # and negative-pattern tests is itself a multiple-testing step. Correct
+        # the selected p value within each motif before applying BH across motifs.
+        n_pattern_tests = len(candidates)
+        p_motif_direction_adjusted = min(1.0, n_pattern_tests * p_motif)
 
         tf_genes = motif_to_tf_genes(motif, expressed_genes)
         if not tf_genes:
@@ -238,6 +243,14 @@ def compute_signature_correlations(
                 "direction": direction,
                 "r_motif_sig": r_motif,
                 "p_motif_sig": p_motif,
+                "p_motif_sig_direction_adjusted": p_motif_direction_adjusted,
+                "n_pattern_tests": n_pattern_tests,
+                "r_motif_sig_pos": pos_entry[0] if pos_entry is not None else np.nan,
+                "p_motif_sig_pos": pos_entry[1] if pos_entry is not None else np.nan,
+                "n_nonzero_motif_pos": pos_entry[2] if pos_entry is not None else 0,
+                "r_motif_sig_neg": neg_entry[0] if neg_entry is not None else np.nan,
+                "p_motif_sig_neg": neg_entry[1] if neg_entry is not None else np.nan,
+                "n_nonzero_motif_neg": neg_entry[2] if neg_entry is not None else 0,
                 "r_expr_sig": r_expr,
                 "p_expr_sig": p_expr,
                 "n_nonzero_motif": nonzero,
@@ -249,9 +262,13 @@ def compute_signature_correlations(
     if df.empty:
         return df
 
-    motif_table = df.drop_duplicates("motif")[["motif", "p_motif_sig"]].reset_index(drop=True)
-    _, fdr_motif, _, _ = multipletests(motif_table["p_motif_sig"].fillna(1.0),
-                                       method="fdr_bh")
+    motif_table = df.drop_duplicates("motif")[
+        ["motif", "p_motif_sig_direction_adjusted"]
+    ].reset_index(drop=True)
+    _, fdr_motif, _, _ = multipletests(
+        motif_table["p_motif_sig_direction_adjusted"].fillna(1.0),
+        method="fdr_bh",
+    )
     motif_table["fdr_motif_sig"] = fdr_motif
     df = df.merge(motif_table[["motif", "fdr_motif_sig"]], on="motif", how="left")
     _, fdr_expr, _, _ = multipletests(df["p_expr_sig"].fillna(1.0), method="fdr_bh")
@@ -464,6 +481,18 @@ def run_for_signature(
         sig_table, motif_pos, motif_neg, expr_matrix, signature_value="observed",
     )
     corr_df.to_csv(OUT_DIR / f"C_correlations_{suffix}.tsv", sep="\t", index=False)
+    audit_columns = [
+        "motif", "r_motif_sig_pos", "p_motif_sig_pos", "n_nonzero_motif_pos",
+        "r_motif_sig_neg", "p_motif_sig_neg", "n_nonzero_motif_neg",
+        "direction", "r_motif_sig", "p_motif_sig", "n_pattern_tests",
+        "p_motif_sig_direction_adjusted", "fdr_motif_sig",
+    ]
+    (
+        corr_df[audit_columns]
+        .drop_duplicates("motif")
+        .sort_values(["fdr_motif_sig", "motif"])
+        .to_csv(OUT_DIR / f"C_motif_direction_tests_{suffix}.tsv", sep="\t", index=False)
+    )
     print(f"  C: scored {len(corr_df)} motifs with mapped TF gene")
 
     C_path = FIG_DIR / f"C_motif_vs_expr_corr_{suffix}"
